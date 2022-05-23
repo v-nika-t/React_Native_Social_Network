@@ -1,26 +1,14 @@
-import { StyleSheet, TextInput, View } from 'react-native';
-import Form from './components/form/Form';
-import Account from './components/account/Account';
-
-export default function App() {
+import 'react-native-gesture-handler';
+import StackNavigator from './navigation/StackNavigator';
 
 
+function App() {
   return (
-    <View >
-      <Form />
-      <Account />
-    </View>
-  )
+    <>
+      <StackNavigator />
+    </>
+
+  );
 }
 
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
