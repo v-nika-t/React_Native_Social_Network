@@ -1,14 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
+import Form from './components/form/Form';
+import Account from './components/account/Account';
 
 export default function App() {
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View >
+      <Form />
+      <Account />
     </View>
-  );
+  )
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
