@@ -16,6 +16,7 @@ const StartForm = () => {
     return (
         <>
             <FlatList
+
                 style={{ marginTop: 100 }}
                 data={buttons}
                 renderItem={({ item }) => (

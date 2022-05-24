@@ -7,7 +7,7 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
     return (
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="Home"  >
             <Drawer.Screen
                 name="allPost"
                 component={PostList}
