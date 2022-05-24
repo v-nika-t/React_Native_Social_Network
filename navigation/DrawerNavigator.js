@@ -1,6 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { View, Button } from 'react-native';
 
+import PostList from '../components/postsList/PostList';
+
 const Drawer = createDrawerNavigator();
 
 function HomeScreen({ navigation }) {
@@ -25,8 +27,27 @@ function NotificationsScreen({ navigation }) {
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator initialRouteName="Home">
-            <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+            <Drawer.Screen
+                name="allPost"
+                component={PostList}
+                options={{
+                    title: 'Новости'
+                }}
+            />
+            <Drawer.Screen
+                name="ownPost"
+                component={NotificationsScreen}
+                options={{
+                    title: 'Твои записи'
+                }}
+            />
+            <Drawer.Screen
+                name="addPost"
+                component={NotificationsScreen}
+                options={{
+                    title: 'Добавить запись'
+                }}
+            />
         </Drawer.Navigator>
     )
 }

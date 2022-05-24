@@ -15,12 +15,14 @@ function StackNavigator() {
                 <Stack.Screen
                     name="startPage"
                     component={Form}
-                    options={{ title: '' }}
+                    options={{
+                        headerShown: false,
+                    }}
                 />
                 <Stack.Screen
                     name="account"
                     component={TabNavigator}
-                    options={{ title: 'Личный кабинет' }}
+                    options={{ headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
