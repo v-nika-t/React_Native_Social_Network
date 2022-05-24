@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import DrawerNavigator from './DrawerNavigator';
 import Account from '../components/account/Account';
-import UsertList from '../components/userList/UserList';
+import UsertList from '../components/users/userList/UserList';
 
 const Tab = createBottomTabNavigator();
 

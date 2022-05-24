@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import news from '../../DB_NEWS';
+import news from '../../../DB_NEWS';
 import PostListItem from '../postListItem/PostsListItem';
 
 const PostList = () => {

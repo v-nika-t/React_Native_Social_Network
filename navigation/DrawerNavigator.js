@@ -1,20 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { View, Button } from 'react-native';
 
-import PostList from '../components/postsList/PostList';
+import PostList from '../components/posts/postsList/PostList';
 
 const Drawer = createDrawerNavigator();
-
-function HomeScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-                onPress={() => navigation.navigate('Notifications')}
-                title="Go to notifications"
-            />
-        </View>
-    );
-}
 
 function NotificationsScreen({ navigation }) {
     return (
