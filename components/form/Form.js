@@ -1,42 +1,32 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { Formik } from 'formik';
-import { View, TextInput, Button, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Button, Text } from 'react-native';
 
-const Form = () => { // Осталась: Отправка данных на сервер == SignIn, SignUP
-    const initialValues = { username: '', email: '', password: "" };
-    const placeholder = { username: 'Введите имя', email: 'Введите email', password: "Введите пароль" };
-    const buttons = ['Войти', 'Зарегистрироваться'];
-    const [pressedButton, setPressedButton] = useState(buttons[0]);
+const Form = (props) => { // Отправка на сервер , перенаправление на нужную страницу  == подумать про action
+    const { placeholder, button, action } = props;
+    const initialValues = {};
 
     const getArrayTextInput = useCallback((props = {}, placeholder = []) => {
         let items = [];
         for (let key in placeholder) {
+            initialValues[key] = '';
+
             items.push(<TextInput
                 value={props.values.key}
                 placeholder={placeholder[key]}
                 onChangeText={props.handleChange(key)}
             />)
         };
-        pressedButton == buttons[0] ? items = items.slice(1) : null
         return items;
-    }, [pressedButton])
+    }, [props])
 
     return (
         <>
-            <FlatList // Меню 
-                data={buttons}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => setPressedButton(item)}>
-                        <Text>{item}</Text>
-                    </TouchableOpacity>
-                )}
-            />
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, actions) => {
                     actions.resetForm(); //При обновлении страницы форма будет пустой. Не запускает рендере 
-                    console.log(values, pressedButton); // отдаст: https://prnt.sc/U-gWwtv6z2Vn
-                    setPressedButton('');//Для рендера страницы 
+                    console.log(values, action); //Действие которое делаем
                 }}
             >
                 {(props) => {
@@ -44,7 +34,7 @@ const Form = () => { // Осталась: Отправка данных на с�
                     return (
                         <View>
                             {arrayTextInput}
-                            <Button title={pressedButton} onPress={props.handleSubmit} />
+                            <Button title={button} onPress={props.handleSubmit} />
                         </View>
                     )
                 }}
@@ -54,4 +44,4 @@ const Form = () => { // Осталась: Отправка данных на с�
 }
 
 
-export default Form; 
+export default Form;  

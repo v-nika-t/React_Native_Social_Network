@@ -1,17 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { View, Button } from 'react-native';
 
 import PostList from '../components/posts/postsList/PostList';
+import AddPost from '../components/posts/addPost/AddPost';
 
 const Drawer = createDrawerNavigator();
-
-function NotificationsScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button onPress={() => navigation.goBack()} title="Go back home" />
-        </View>
-    );
-}
 
 const DrawerNavigator = () => {
     return (
@@ -25,14 +17,14 @@ const DrawerNavigator = () => {
             />
             <Drawer.Screen
                 name="ownPost"
-                component={NotificationsScreen}
+                component={PostList}
                 options={{
                     title: 'Твои записи'
                 }}
             />
             <Drawer.Screen
                 name="addPost"
-                component={NotificationsScreen}
+                component={AddPost}
                 options={{
                     title: 'Добавить запись'
                 }}

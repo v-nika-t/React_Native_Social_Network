@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import TabNavigator from './TabNavigator';
 
-import Form from '../components/form/Form';
+import StartForm from '../components/form/startForm/StartForm';
 
 
 const Stack = createNativeStackNavigator();
@@ -11,10 +11,10 @@ const Stack = createNativeStackNavigator();
 function StackNavigator() {
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="account">
+            <Stack.Navigator initialRouteName="startPage">
                 <Stack.Screen
                     name="startPage"
-                    component={Form}
+                    component={StartForm}
                     options={{
                         headerShown: false,
                     }}
