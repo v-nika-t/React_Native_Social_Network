@@ -35,13 +35,6 @@ class AuthController {
             .catch((err) => res.status(500).json(err));
     };
 
-    editUser = (req, res) => {
-        this.db.editUser(req, res).then((data) => res.status(200).json(data));
-    };
-
-    deleteUser = (req, res) => {
-        this.db.deleteUser(req, res).then((data) => res.status(200).json(data));
-    };
 }
 
 module.exports = new AuthController;
