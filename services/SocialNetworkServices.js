@@ -18,8 +18,6 @@ class SocialNetworkServices {
         body ? requestObject.data = body : null;
         id ? requestObject.url += `/${id}` : null;
 
-        console.log('Hello', requestObject);
-
         const data = await axios(requestObject)
             .then(function (response) {
                 return response.data

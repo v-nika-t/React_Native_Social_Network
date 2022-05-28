@@ -28,7 +28,7 @@ function StackNavigator() {
                 <Stack.Screen
                     name="comments"
                     component={CommentsList}
-                    options={{ headerShown: false }}
+                    options={{ title: "Комментарии" }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
