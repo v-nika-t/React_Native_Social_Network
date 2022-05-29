@@ -9,7 +9,7 @@ class SocialNetworkServices {
         this.URL += `/${nameDB}`;
     }
 
-    requestOnServer = async (method = 'get', action = "all", id = '', body = "") => {
+    requestOnServer = async (method = 'get', action = "all", id = '', body = "", headers = "") => {
         const requestObject = {
             method: method,
             url: this.URL + `/${action}`
@@ -17,6 +17,7 @@ class SocialNetworkServices {
 
         body ? requestObject.data = body : null;
         id ? requestObject.url += `/${id}` : null;
+        headers ? requestObject['headers'] = headers : null;
 
         const data = await axios(requestObject)
             .then(function (response) {
@@ -26,22 +27,37 @@ class SocialNetworkServices {
             });
         return await data;
     }
+
+    formBodyWithFile = (data) => {
+        const body = new FormData();
+        const headers = '';
+        for (let key in data) {
+            if (key == 'uri') {
+                body.append('img', {
+                    uri: data[key],
+                    type: 'image/jpg',
+                    name: 'img'
+                });
+                headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                }
+            } else {
+                body.append(key, data[key]);
+            }
+        }
+        return body;
+    }
+
     getAll = () => this.requestOnServer(); //+
     getOne = (id) => this.requestOnServer('get', 'get', id); //+
     delete = (id) => this.requestOnServer('delete', 'delete', id); //+
-    add = (body) => this.requestOnServer('post', 'add', '', body);
     edit = (id, body = {}) => this.requestOnServer('put', 'edit', id, body);
+    add = async (data) => {
+        let body = formBodyWithFile(data);
+        this.requestOnServer('post', 'add', '', body, headers);
+    }
 }
-
-/* let y = new SocialNetworkServices('post');
-let a = y.edit('2c84575e-bfe1-416d-a07f-9773d301970a', {
-    "date": "24",
-    "description": "Test",
-    "img": "rfedgdf",
-    "likes": 66,
-});
-
-console.log(a.then(b => console.log(b))); */
 
 export default SocialNetworkServices;
 

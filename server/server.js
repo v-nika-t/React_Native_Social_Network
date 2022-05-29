@@ -1,3 +1,6 @@
+const multer = require('multer');
+const upload = multer({ dest: './assets' });
+
 const PORT = 8000;
 
 const methodOverride = require('method-override');
@@ -15,10 +18,11 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use(express.static('../assets'));// доступ к папке assets. CСделать к поределенной папке  есди прошел аутитификацию
 
 app.use('/auth', authRoutes);
 app.use('/user', crudRotes('user'));
-app.use('/post', crudRotes('post'));
+app.use('/post', upload.single('img'), crudRotes('post'));
 app.use('/comment', crudRotes('comment'));
 
 

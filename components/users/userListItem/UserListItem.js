@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native';
 
 const UserListItem = (props) => {
-    const { username } = props;
+    const { id, name, mail, } = props;
 
     return (
         <View>
-            <Text>{username} : Добавить в друзья  Удалить из друзей </Text>
+            <Text>{name} : Добавить в друзья  Удалить из друзей </Text>
         </View>
     )
 }

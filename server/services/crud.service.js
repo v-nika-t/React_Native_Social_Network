@@ -20,6 +20,8 @@ class CRUD_Service {
     };
 
     add = (req, res) => {
+        console.log(req.file === undefined); // сделать лоигику добавления файлов 
+        console.log(req.file, req.body);
         return (this.db
             .create(this.getNewData(uuidv4(), req))
             .then(data => data))

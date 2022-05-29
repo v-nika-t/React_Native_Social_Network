@@ -17,12 +17,12 @@ const PostList = ({ navigation }) => {
     }, []);
 
     const spinner = loading ? <Image source={require(pathImage)} /> : null
-    const posts = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} />)) : null
+    const content = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} />)) : null
 
     return (
         <View>
             {spinner}
-            {posts}
+            {content}
         </View>
     )
 }
