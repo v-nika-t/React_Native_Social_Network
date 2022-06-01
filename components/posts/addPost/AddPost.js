@@ -33,6 +33,7 @@ const AddPost = () => {
                 action={action}
                 name={name}
                 file={image}
+                reset={() => setImage(null)}
             />
             <Button title="Добавить фографию" onPress={pickImage} />
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}

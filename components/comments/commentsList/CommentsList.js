@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import SocialNetworkServices from '../../../services/SocialNetworkServices';
 
-const CommentsList = ({ navigation: { goBack } }) => {
+const CommentsList = () => {
 
     const service = new SocialNetworkServices('comment');
     const pathImage = '../../../assets/spinner.gif';

@@ -1,9 +1,5 @@
 const path = require('path');
-const multer = require('multer');
-
 const CRUDController = require(path.resolve(__dirname, "../controllers", "crud.controller.js"));
-
-const upload = multer({ dest: './assets' });
 
 const route = (nameDB) => {
 

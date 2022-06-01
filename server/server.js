@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 const authRoutes = require('./routs/auth.rout.js');
-const crudRotes = require('./routs/crud.rout.js');
+const crudRoutes = require('./routs/crud.rout.js');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -21,9 +21,9 @@ app.use(methodOverride('_method'));
 app.use(express.static('../assets'));// доступ к папке assets. CСделать к поределенной папке  есди прошел аутитификацию
 
 app.use('/auth', authRoutes);
-app.use('/user', crudRotes('user'));
-app.use('/post', upload.single('img'), crudRotes('post'));
-app.use('/comment', crudRotes('comment'));
+app.use('/user', crudRoutes('user'));
+app.use('/post', upload.single('img'), crudRoutes('post'));
+app.use('/comment', crudRoutes('comment'));
 
 
 app.listen(PORT, '192.168.1.225', (err) => {

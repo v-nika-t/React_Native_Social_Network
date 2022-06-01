@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 
 import SocialNetworkServices from '../../../services/SocialNetworkServices';
 import PostListItem from '../postListItem/PostsListItem';
@@ -20,10 +20,10 @@ const PostList = ({ navigation }) => {
     const content = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} />)) : null
 
     return (
-        <View>
+        <ScrollView>
             {spinner}
             {content}
-        </View>
+        </ScrollView>
     )
 }
 

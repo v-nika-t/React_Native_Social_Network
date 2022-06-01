@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import UserListItem from '../userListItem/UserListItem';
@@ -24,12 +24,14 @@ const UsertList = () => {
 
 
     return (
-        <View>
+        <>
             <SearchPanel />
             <UserFilter />
-            {spinner}
-            {content}
-        </View>
+            <ScrollView>
+                {spinner}
+                {content}
+            </ ScrollView>
+        </>
     )
 }
 export default UsertList;

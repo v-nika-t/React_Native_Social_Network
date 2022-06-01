@@ -2,16 +2,14 @@ const { v4: uuidv4 } = require('uuid');
 
 class CRUD_Service {
 
-    /*  constructor(nameDB) {
-         this.db = require(`../modules/${nameDB}s`);
-         console.log(this.db);
-     } */
+    tableFields = "";
+    db = "";
 
     getAll = (req, res) => {
         return this.db.findAll({ raw: true }).then(data => data);
     };
 
-    getNewData = (id, req) => {
+    getObjectDataforDB = (id, req) => {
         let data = { id: id };
         this.tableFields.forEach(item => {
             data[item] = req.body[item];
@@ -20,10 +18,8 @@ class CRUD_Service {
     };
 
     add = (req, res) => {
-        console.log(req.file === undefined); // сделать лоигику добавления файлов 
-        console.log(req.file, req.body);
         return (this.db
-            .create(this.getNewData(uuidv4(), req))
+            .create(this.getObjectDataforDB(uuidv4(), req))
             .then(data => data))
             .catch(err => console.log(err))
     };
