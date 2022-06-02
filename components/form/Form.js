@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { View, TextInput, Button, Text } from 'react-native';
 import SocialNetworkServices from '../../services/SocialNetworkServices';
@@ -22,6 +22,8 @@ const Form = (props) => { // Отправка на сервер , перенап
         };
         return items;
     }, [props]);
+
+
 
     return (
         <>

@@ -18,24 +18,24 @@ class SocialNetworkServices {
         const requestObject = {
             method: method,
             url: this.URL + `/${action}`,
+
         }
 
         body ? requestObject.data = body : null;
         id ? requestObject.url += `/${id}` : null;
-        isFile ? requestObject['headers'] = this.headersForFile : null;
+        isFile ? requestObject['headers'] = this.headersForFile : { "Content-Type": "application/json" };
 
         const data = await axios(requestObject)
             .then(function (response) {
                 return response.data
-            }).catch(function (error) {
-                console.log("Ошибка: ", error)
-            });
+            }).catch(error => {
+                console.log(error);
+            })
         return await data;
     }
 
-    formBody = (data) => {
+    formBodyWithFile = (data) => {
         const body = new FormData();
-        let isFile = false;
         for (let key in data) {
             if (key == 'uri') {
                 body.append('img', {
@@ -43,12 +43,11 @@ class SocialNetworkServices {
                     type: 'image/jpg',
                     name: 'img'
                 });
-                isFile = true;
             } else {
                 body.append(key, data[key]);
             }
         }
-        return [body, isFile];
+        return body;
     }
 
     getAll = () => this.requestOnServer();
@@ -56,7 +55,12 @@ class SocialNetworkServices {
     delete = (id) => this.requestOnServer('delete', 'delete', id);
     edit = (id, body = {}) => this.requestOnServer('put', 'edit', id, body);
     add = (data) => {
-        const [body, isFile] = this.formBody(data);
+        let isFile = false;
+        let body = data;
+        if (data.uri) {
+            body = this.formBodyWithFile(data);
+            isFile = true;
+        }
         return this.requestOnServer('post', 'add', '', body, isFile);
     }
 }

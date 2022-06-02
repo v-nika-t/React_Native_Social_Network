@@ -1,5 +1,5 @@
-const mysql = require("mysql2");
 const { Sequelize } = require('sequelize');
+const User = require('./users');
 
 const sequelize = new Sequelize("node-server", 'root', "root", {
     host: 'localhost',
@@ -10,8 +10,13 @@ const sequelize = new Sequelize("node-server", 'root', "root", {
     }
 });
 
-const Posts = sequelize.define('post', {
+const Post = sequelize.define('post', {
     id: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+        allowNull: false
+    },
+    title: {
         type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false
@@ -35,9 +40,13 @@ const Posts = sequelize.define('post', {
 
 })
 
-sequelize.sync({ force: false }).then(() => {
+User.hasMany(Post);
+
+sequelize.sync({ force: true }).then(() => {
     console.log('Table have been created')
 }).catch(err => console.log(err));
 
-module.exports = Posts;
 
+module.exports = Post;
+
+/* userId */

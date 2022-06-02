@@ -1,5 +1,5 @@
-const mysql = require("mysql2");
 const { Sequelize } = require('sequelize');
+const Users = require('./users');
 
 const sequelize = new Sequelize("node-server", 'root', "root", {
     host: 'localhost',
@@ -25,6 +25,8 @@ const Comments = sequelize.define('comment', {
         allowNull: false
     }
 })
+
+Users.hasMany(Comments);
 
 sequelize.sync({ force: false }).then(() => {
     console.log('Table have been created')

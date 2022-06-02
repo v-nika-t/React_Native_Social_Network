@@ -6,6 +6,7 @@ const route = (nameDB) => {
     const controller = new CRUDController(nameDB);
     const express = require('express');
     const route = express.Router();
+    console.log('РОУТ круд:', nameDB, controller)
 
     route
         .get("/all", controller.getAll)

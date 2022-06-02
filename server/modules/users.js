@@ -1,4 +1,3 @@
-const mysql = require("mysql2");
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize("node-server", 'root', "root", {
@@ -32,9 +31,12 @@ const User = sequelize.define('user', {
 
 })
 
+
 sequelize.sync({ force: false }).then(() => {
-  console.log('Table have been created')
+  console.log('Tables have been created')
 }).catch(err => console.log(err));
+
+
 
 module.exports = User;
 

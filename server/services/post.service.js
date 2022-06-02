@@ -8,12 +8,9 @@ class PostService extends CRUD_Service {
     add = (req, res) => {
         let dataforDB = this.getObjectDataforDB(uuidv4(), req);
         dataforDB['img'] = req.file.path;
-        dataforDB['likes'] = 0;
-        dataforDB['date'] = '23/04';
-        return (
-            this.db
-                .create(dataforDB)
-                .then(data => data))
+        return (this.db
+            .create(dataforDB)
+            .then(data => data))
             .catch(err => console.log(err)
             )
     }

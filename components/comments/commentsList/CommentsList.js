@@ -10,6 +10,7 @@ const CommentsList = () => {
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(true);
     const [text, onChangeText] = useState('');
+    const [save, setSave] = useState(false)
 
     useEffect(() => {
         service.getAll()
@@ -17,8 +18,15 @@ const CommentsList = () => {
             .then(setLoading(false))
     }, []);
 
+    useEffect(() => {
+        service.getAll()
+            .then(data => setData(data))
+            .then(setLoading(false))
+    }, [save]);
+
     const addComment = () => {
-        service.add({ description: text, date: '28/05' });
+        service.add({ description: text, date: new Date() })
+        setSave(save => !save);
         onChangeText('');
     }
     const Comments = (props) => {
