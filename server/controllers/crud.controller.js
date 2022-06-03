@@ -1,3 +1,4 @@
+
 class CRUDController {
 
     constructor(nameDB) {
@@ -5,7 +6,7 @@ class CRUDController {
     }
 
     getAll = (req, res) => {
-        this.db.getAll().then((data) => res.status(200).json(data));
+        this.db.getAll(req).then((data) => res.status(200).json(data));
     };
 
     add = (req, res) => {

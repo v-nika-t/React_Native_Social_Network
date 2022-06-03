@@ -2,7 +2,7 @@ const CRUD_Service = require('./crud.service');
 
 class UserService extends CRUD_Service {
     tableFields = ['name', 'mail', 'password'];
-    db = require('../modules/users');
+
 
     getUserByEmail = (req, res) => {
         return this.db

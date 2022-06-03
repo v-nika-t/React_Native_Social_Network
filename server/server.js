@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-app.use(express.static(`${__dirname}/assets`));// доступ к папке assets. CСделать к поределенной папке  есди прошел аутитификацию //Саму папку указывать НЕ надо http://192.168.1.225:8000/0b64c8b9b5356ebd4dde944dba12dad5
+app.use(express.static(`${__dirname}/assets/imgOfPosts`));// доступ к папке assets. CСделать к поределенной папке  есди прошел аутитификацию //Саму папку указывать НЕ надо http://192.168.1.225:8000/0b64c8b9b5356ebd4dde944dba12dad5
 
 app.use('/auth', authRoutes);
 app.use('/user', crudRoutes('user'));

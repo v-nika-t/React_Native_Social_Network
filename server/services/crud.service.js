@@ -3,9 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 class CRUD_Service {
 
     tableFields = "";
-    db = "";
+    _db = require('../modules/index');
 
-    getAll = (req, res) => {
+    getAll = () => {
         return this.db.findAll({ raw: true }).then(data => data);
     };
 
@@ -51,5 +51,6 @@ class CRUD_Service {
             }).then(() => req.params.id);
     };
 }
+
 
 module.exports = CRUD_Service;
