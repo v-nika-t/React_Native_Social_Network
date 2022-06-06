@@ -26,6 +26,9 @@ Comment.belongsTo(Post);
 User.belongsToMany(User, { through: Friend, as: 'user', foreignKey: 'userId' });
 User.belongsToMany(User, { through: Friend, as: 'subscriber', foreignKey: 'friendId' });
 
+User.hasMany(Friend);
+Friend.belongsTo(User, { foreignKey: 'friendId' });
+
 /* User.hasMany(Friend);
 Friend.belongsTo(User);
  */
