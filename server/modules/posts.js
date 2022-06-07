@@ -29,11 +29,6 @@ const Post = (sequelize) => {
             allowNull: false,
             defaultValue: 'jpg'
         },
-        likes: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            defaultValue: 0
-        },
         date: {
             type: Sequelize.STRING,
             allowNull: false

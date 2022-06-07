@@ -15,11 +15,6 @@ const Comment = (sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        likes: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            defaultValue: 0
-        }
     })
 }
 

@@ -17,7 +17,7 @@ const PostList = ({ navigation }) => {
     }, []);
 
     const spinner = loading ? <Image source={require(pathImage)} /> : null
-    const content = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} url={service.URL_WITH_PORT} />)) : null
+    const content = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} url={service.URL_WITH_PORT} service={service} />)) : null
 
     return (
         <ScrollView>

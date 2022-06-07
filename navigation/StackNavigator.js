@@ -30,6 +30,11 @@ function StackNavigator() {
                     component={CommentsList}
                     options={{ title: "Комментарии" }}
                 />
+                <Stack.Screen // сделать компоненту 
+                    name="adminPanel"
+                    component={CommentsList}
+                    options={{ title: "Комментарии" }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

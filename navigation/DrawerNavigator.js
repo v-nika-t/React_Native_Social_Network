@@ -13,7 +13,6 @@ const DrawerNavigator = () => {
                 component={PostList}
                 options={{
                     title: 'Новости',
-
                 }}
             />
             <Drawer.Screen

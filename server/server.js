@@ -12,6 +12,7 @@ const app = express();
 
 const authRoutes = require('./routs/auth.rout.js');
 const crudRoutes = require('./routs/crud.rout.js');
+const likesRoutes = require('./routs/likes.rout.js');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +25,8 @@ app.use('/auth', authRoutes);
 app.use('/user', crudRoutes('user'));
 app.use('/comment', crudRoutes('comment'));
 app.use('/post', upload.single('img'), crudRoutes('post'));
+app.use('/comment/likes', likesRoutes('LikeofComment'));
+app.use('/post/likes', likesRoutes('LikeofPost'));
 
 
 

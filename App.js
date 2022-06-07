@@ -8,10 +8,8 @@ function App() {
     <SafeAreaProvider>
       <StackNavigator />
     </SafeAreaProvider>
-
-
-
   );
 }
 
 export default App;
+

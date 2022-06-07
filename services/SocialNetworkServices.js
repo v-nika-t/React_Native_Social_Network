@@ -64,7 +64,8 @@ class SocialNetworkServices {
         }
         return this.requestOnServer('post', 'add', '', body, isFile);
     }
-
+    deleteLike = (body) => this.requestOnServer('delete', 'likes/delete', '', body);
+    addLike = (body) => this.requestOnServer('post', 'likes/add', '', body);
 }
 
 export default SocialNetworkServices;

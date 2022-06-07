@@ -1,4 +1,4 @@
-import { Text, Button, TextInput, Image, FlatList, View, TouchableWithoutFeedback } from "react-native";
+import { Text, Button, TextInput, Image, ScrollView, View, TouchableWithoutFeedback } from "react-native";
 import { useState, useEffect } from 'react';
 import { SimpleLineIcons, AntDesign } from '@expo/vector-icons';
 
@@ -8,70 +8,79 @@ import styles from './styleCommentList';
 const CommentsList = ({ route }) => {
     const service = new SocialNetworkServices('comment');
     const pathImage = '../../../assets/spinner.gif';
-    const idNews = route.params.postId;
+    const postId = route.params.postId;
+    const userId = 3;
+    const user_name = '3_user_name';
 
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(true);
-    const [text, onChangeText] = useState('');
+    const [text, setText] = useState('');
+
 
     useEffect(() => {
-        service.getAll({ id: idNews })
+        service.getAll({ id: postId })
             .then(data => setData(data))
             .then(setLoading(false))
     }, []);
 
-    const addComment = () => {
-        service.add({ description: text, date: new Date() })
-        setSave(save => !save);
-        onChangeText('');
+    const addComment = async () => {
+        const res = await service.add({ description: text, date: new Date(), userId: userId, postId: postId });
+        setData(data => [...data, { ...res, user: { user: "1_user_name" } }]);
+        setText('');
     }
 
-    const addLike = (idComment) => {
-        setColor('red');
-        console.log(idNews, idComment);
-    }
+
     const Comments = (props) => {
+        return data ? data.map(item => {
+            const [isLike, setIsLike] = useState(item.Users_added_like_to_comment.some(item => (item.user_name == user_name)))
 
-        return (
-            <FlatList
-                data={props.data}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => {
-                    return (
-                        <View >
-                            <Text>
-                                <AntDesign name="user" size={20} color="black" />
-                                <Text style={{ fontWeight: 'bold' }}> {item.user.user_name} </Text>
-                                <Text style={{ fontStyle: 'italic' }}>{item.date} </Text>
-                            </Text>
-                            <Text>{item.description}</Text>
-                            <Text>
-                                <TouchableWithoutFeedback onPress={() => addLike(item.id)}>
-                                    <SimpleLineIcons name="like" size={20} color='black' />
-                                </TouchableWithoutFeedback>
-                                <Text> {item.likes} </Text>
-                            </Text>
-                        </View>
-                    )
-                }}
-            />
-        )
+            const addLike = (commentId) => {
+                if (item.Owner_comments.id == userId) { return }
+                if (isLike) {
+                    service.deleteLike({ userId: userId, commentId: commentId });
+                    setIsLike(false);
+                } else {
+                    service.addLike({ userId: userId, commentId: commentId });
+                    setIsLike(true);
+                }
+            }
+            return (
+                <View key={item.id}>
+                    <Text>
+                        <AntDesign name="user" size={20} color="black" />
+                        <Text style={{ fontWeight: 'bold' }}> {item.Owner_comments.user_name} </Text>
+                        <Text style={{ fontStyle: 'italic' }}>{item.date} </Text>
+                    </Text>
+                    <Text>{item.description}</Text>
+                    <Text>
+                        <TouchableWithoutFeedback onPress={() => addLike(item.Owner_comments.id)}>
+                            <SimpleLineIcons name="like" size={20} color={isLike ? 'red' : 'black'} />
+                        </TouchableWithoutFeedback>
+                        <Text> {item.Users_added_like_to_comment.length} </Text>
+                    </Text>
+                </View>
+            )
+        }
+
+        ) : null;
+
     }
 
     const spinner = loading ? <Image style={{ marginTop: 200 }} source={require(pathImage)} /> : null
     const content = data ? <Comments data={data} /> : null
-    let id = 1;
 
     return (
         <>
-            {spinner}
-            {content}
             <TextInput
-                onChangeText={onChangeText}
+                onChangeText={setText}
                 value={text}
                 placeholder='Коментарий'
             />
             <Button onPress={addComment} title="Добавить" />
+            <ScrollView>
+                {spinner}
+                {content}
+            </ScrollView>
 
         </>
     )
