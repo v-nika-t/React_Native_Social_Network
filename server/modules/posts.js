@@ -1,37 +1,32 @@
-const { Sequelize } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
 const Post = (sequelize) => {
     return sequelize.define('post', {
         id: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false
         },
         title: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false
         },
         description: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         img: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         img: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
-        },
-        ext: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue: 'jpg'
         },
         date: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: DataTypes.DATE,
+            defaultValue: Sequelize.fn('now')
         },
 
 

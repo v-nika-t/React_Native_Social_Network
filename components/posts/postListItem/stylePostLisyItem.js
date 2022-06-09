@@ -11,7 +11,14 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
+    },
+
+    headerPost: {
+        flexDirection: "row",
+        justifyContent: 'space-between',
+        margin: 5
     }
+
 
 
 

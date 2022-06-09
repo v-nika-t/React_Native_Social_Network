@@ -54,14 +54,25 @@ class SocialNetworkServices {
     getAll = (queryParams = "") => this.requestOnServer('get', 'all', '', '', false, queryParams);
     getOne = (id) => this.requestOnServer('get', 'get', id);
     delete = (id) => this.requestOnServer('delete', 'delete', id);
-    edit = (id, body = {}) => this.requestOnServer('put', 'edit', id, body);
-    add = (data) => {
+    edit = (id, data = {}) => {
         let isFile = false;
         let body = data;
         if (data.uri) {
             body = this.formBodyWithFile(data);
             isFile = true;
         }
+        return this.requestOnServer('put', 'edit', id, body, isFile);
+    }
+    add = (data) => {
+        let isFile = false;
+        let body = data;
+        console.log(body);
+        if (data.uri) {
+            body = this.formBodyWithFile(data);
+            isFile = true;
+        }
+
+        console.log(body);
         return this.requestOnServer('post', 'add', '', body, isFile);
     }
     deleteLike = (body) => this.requestOnServer('delete', 'likes/delete', '', body);

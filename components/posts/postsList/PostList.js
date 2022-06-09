@@ -4,20 +4,36 @@ import { Image, ScrollView } from 'react-native';
 import SocialNetworkServices from '../../../services/SocialNetworkServices';
 import PostListItem from '../postListItem/PostsListItem';
 
-const PostList = ({ navigation }) => {
+const PostList = ({ navigation, route }) => {
     const service = new SocialNetworkServices('post');
     const pathImage = '../../../assets/spinner.gif';
     const [data, setData] = useState('');
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const userId = 2;
 
     useEffect(() => {
-        service.getAll()
+        const queryParams = route.name == 'ownPost' ? { id: userId } : '';
+        service.getAll(queryParams)
             .then(data => setData(data))
             .then(setLoading(false))
     }, []);
 
+    const deletePost = (id) => {
+        setData(data => data.filter(item => item.id !== id));
+    }
+
     const spinner = loading ? <Image source={require(pathImage)} /> : null
-    const content = data ? data.map(item => (<PostListItem navigation={navigation} key={item.id} {...item} url={service.URL_WITH_PORT} service={service} />)) : null
+    const content = data ? data.map(item => {
+        return (<PostListItem
+            navigation={navigation}
+            key={item.id}
+            {...item}
+            service={service}
+            canDelete={route.name == 'ownPost' ? true : false}
+            deletePost={deletePost}
+
+        />)
+    }) : null
 
     return (
         <ScrollView>

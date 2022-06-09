@@ -1,33 +1,60 @@
 import { useState } from 'react';
 import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
-import { AntDesign, EvilIcons, SimpleLineIcons, Fontisto } from '@expo/vector-icons';
+import { AntDesign, EvilIcons, SimpleLineIcons, Fontisto, Feather } from '@expo/vector-icons';
 import styles from './stylePostLisyItem';
 
+
+
 const PostListItem = (props) => {
-    const { Owner_posts, Users_added_like_to_post, title, description, img, navigation, url, ext, id, date, service } = props;
-    const pathImg = url + '/' + img + '.' + ext;
-    const count_likes = Users_added_like_to_post.length
+    const { Owner_posts, Users_added_like_to_post, title, description, img, id, date } = props;
+    const { navigation, service, canDelete } = props;
+
+    const pathImg = service.URL_WITH_PORT + '/' + img;
     const user_name = '1_user_name';
     const userId = 1;
 
     const [isLike, setIsLike] = useState(Users_added_like_to_post.some(item => (item.user_name == user_name)))
+    const [countLikes, setCountLikes] = useState(Users_added_like_to_post.length);
 
     const addLike = (postId) => {
         if (Owner_posts.user_name == user_name) { return }
         if (isLike) {
             service.deleteLike({ userId: userId, postId: postId });
+            setCountLikes(countLikes => --countLikes)
             setIsLike(false);
         } else {
             service.addLike({ userId: userId, postId: postId });
             setIsLike(true);
+            setCountLikes(countLikes => ++countLikes)
         }
     }
+
+    const deletePost = async (postId) => {
+        const res = await service.delete(postId);
+        props.deletePost(res);
+    }
+
+
+
     return (
         <View>
-            <Text >
-                <AntDesign name="user" size={20} color="black" />
-                <Text style={[{ fontWeight: 'bold' }, styles.text]}> {Owner_posts.user_name} </Text>
-            </Text>
+            <View style={styles.headerPost}>
+                <View style={{ flexDirection: "row" }}>
+                    <AntDesign name="user" size={20} color="black" />
+                    <Text style={[{ fontWeight: 'bold' }, styles.text]}> {Owner_posts.user_name} </Text>
+                </View>
+                {canDelete ? (
+                    <View style={{ flexDirection: "row" }}>
+                        <TouchableWithoutFeedback onPress={() => navigation.getParent('StackNavigator').navigate('editPost', { title, description, id })}>
+                            <Feather name="edit" size={24} color="black" />
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={() => deletePost(id)}>
+                            <AntDesign name="delete" size={24} color="black" />
+                        </TouchableWithoutFeedback>
+                    </View>
+                ) : null}
+
+            </View>
             <View >
                 <Image
                     source={{ uri: pathImg }}
@@ -40,7 +67,7 @@ const PostListItem = (props) => {
                         <TouchableWithoutFeedback onPress={() => addLike(id)}>
                             <SimpleLineIcons name="like" size={20} color={isLike ? 'red' : 'black'} />
                         </TouchableWithoutFeedback>
-                        <Text style={[{ color: 'green' }, styles.text]} > {count_likes}  </Text>
+                        <Text style={[{ color: 'green' }, styles.text]} > {countLikes}  </Text>
                         <Fontisto name="date" size={20} color="black" />
                         <Text style={[{ fontStyle: 'italic' }, styles.text]}> {date} </Text>
                         <TouchableWithoutFeedback onPress={() => navigation.getParent('StackNavigator').navigate('comments', { postId: id })}>
@@ -49,11 +76,9 @@ const PostListItem = (props) => {
                     </View>
                 </View>
             </View>
-
-
-
-        </View>
+        </View >
     )
+
 }
 
 

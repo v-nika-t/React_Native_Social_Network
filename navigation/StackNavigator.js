@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
 import StartForm from '../components/form/startForm/StartForm';
 import CommentsList from '../components/comments/commentsList/CommentsList';
-
+import FormPostAction from '../components/posts/formPostAction/FormPostAction'
 
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +29,13 @@ function StackNavigator() {
                     name="comments"
                     component={CommentsList}
                     options={{ title: "Комментарии" }}
+                />
+                <Stack.Screen
+                    name="editPost"
+                    component={FormPostAction}
+                    options={{
+                        title: 'Изменить'
+                    }}
                 />
                 <Stack.Screen // сделать компоненту 
                     name="adminPanel"

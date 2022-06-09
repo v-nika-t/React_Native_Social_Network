@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import PostList from '../components/posts/postsList/PostList';
-import AddPost from '../components/posts/addPost/AddPost';
+import FormPostAction from '../components/posts/formPostAction/FormPostAction';
 
 const Drawer = createDrawerNavigator();
 
@@ -24,11 +24,12 @@ const DrawerNavigator = () => {
             />
             <Drawer.Screen
                 name="addPost"
-                component={AddPost}
+                component={FormPostAction}
                 options={{
-                    title: 'Добавить запись'
+                    title: 'Добавить'
                 }}
             />
+
         </Drawer.Navigator>
     )
 }
