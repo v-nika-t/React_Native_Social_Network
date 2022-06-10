@@ -22,6 +22,10 @@ const PostList = ({ navigation, route }) => {
         setData(data => data.filter(item => item.id !== id));
     }
 
+    /*   const editPost = (id,newData) => {
+          setData(data => data.map(item => item.id !== id ? item : newData ));
+      } */
+
     const spinner = loading ? <Image source={require(pathImage)} /> : null
     const content = data ? data.map(item => {
         return (<PostListItem
@@ -31,7 +35,6 @@ const PostList = ({ navigation, route }) => {
             service={service}
             canDelete={route.name == 'ownPost' ? true : false}
             deletePost={deletePost}
-
         />)
     }) : null
 

@@ -27,13 +27,24 @@ const FormPostAction = ({ navigation, route }) => {
     const [error, setError] = useState(false);
 
     const pickImage = async () => { // Закгрузка картинок
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: false,
-            aspect: [4, 3],
-            quality: 1,
+
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true
+        }).then(image => {
+            console.log(image);
         });
-        !result.cancelled ? setImage(result.uri) : null;
+
+        /*     let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: false,
+                aspect: [4, 3],
+                quality: 1,
+    
+            });
+            !result.cancelled ? setImage(result.uri) : null; */
+
     };
 
     const addPost = (values, actions) => { //Добавить пост
@@ -62,6 +73,7 @@ const FormPostAction = ({ navigation, route }) => {
         typeof image !== 'undefined' ? values['uri'] = image : null
         server.edit(route.params.id, values)
             .then((data) => {
+                console.log(data);
                 navigation.goBack();
             }).catch(e => setResult('Что-то пошло НЕ так: ' + e))
     }

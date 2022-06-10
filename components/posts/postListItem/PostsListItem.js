@@ -31,10 +31,8 @@ const PostListItem = (props) => {
 
     const deletePost = async (postId) => {
         const res = await service.delete(postId);
-        props.deletePost(res);
+        props.deletePost(res.id);
     }
-
-
 
     return (
         <View>

@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     container: {
-        flex: 1,
-        color: 'red'
+        flexDirection: 'row',
+        justifyContent: "space-between",
     }
 });
 

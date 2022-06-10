@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const User = (sequelize) => {
   return sequelize.define('user', {
@@ -19,6 +19,11 @@ const User = (sequelize) => {
     password: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    canAllSeeAccount: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     }
 
   })

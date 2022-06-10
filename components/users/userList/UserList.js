@@ -42,7 +42,6 @@ const UsertList = () => {
         }
     }
 
-
     const searchUsers = (data) => {
         const reg = new RegExp("^" + search, 'i');
         return data.filter((item) => {
@@ -50,7 +49,6 @@ const UsertList = () => {
         })
 
     }
-
 
     const spinner = loading ? <Image source={require(pathImage)} /> : null
     const content = data ? filterUsers(searchUsers(data)).map(item => {
@@ -63,11 +61,10 @@ const UsertList = () => {
             nameIcon = isChum ? 'checkcircle' : 'closecircle';
             color = isChum ? 'green' : 'red';
         }
-
         return (
             <View key={item.id} style={[styles.container]}>
                 <Text style={[styles.text]}>{user_name}</Text>
-                <TouchableWithoutFeedback onPress={() => changeStatus(user_name)}>
+                <TouchableWithoutFeedback onPress={() => changeStatus(item.user.id)}>
                     <AntDesign style={{ marginLeft: 10 }} name={nameIcon} size={26} color={color} />
                 </TouchableWithoutFeedback>
             </View>
@@ -104,6 +101,8 @@ const UsertList = () => {
         filter == 'friends' ? setIsFriend(true) : setIsFriend(false)
 
     }
+
+    console.log(data);
 
     return (
         <>

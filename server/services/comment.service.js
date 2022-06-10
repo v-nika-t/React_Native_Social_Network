@@ -46,8 +46,18 @@ class CommentService extends CRUD_Service {
             Owner_comments: { user_name: user.user_name },
             Users_added_like_to_comment: []
         })
-
     };
+
+    delete = (req) => {
+        return this._db.Comment.destroy({ where: { id: req.params.id } }
+        ).then(async () => req.params.id).catch(err => err);
+    }
+
+    edit = (req, res) => {
+        const comment = { ...req.body };
+        return this._db.Comment.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
+
+    }
 }
 module.exports = new CommentService();
 

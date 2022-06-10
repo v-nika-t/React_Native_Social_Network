@@ -1,5 +1,6 @@
 const CRUD_Service = require('./crud.service');
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 
 class PostService extends CRUD_Service {
     tableFields = ['description', 'img', 'date', 'likes'];
@@ -32,14 +33,6 @@ class PostService extends CRUD_Service {
     };
 
 
-    delete = (req) => {
-        return this._db.Post.destroy({ where: { id: req.params.id } }
-        ).then(async () => {
-            await this._db.Comment.destroy({ where: { postId: req.params.id } });
-            return await req.params.id;
-        }).catch(err => err);
-    }
-
     add = (req, res) => {
         const post = {
             id: uuidv4(),
@@ -61,16 +54,35 @@ class PostService extends CRUD_Service {
             }).catch(err => console.log(err)))
     }
 
-    edit = (req, res) => {
-        //удалить файл старый
-        const post = { ...req.body };
-        req.file ? post['img'] = req.file.filename : null
-        return (
-            this._db.Post.update({ ...post }, { where: { id: req.params.id } }
-            ).then(() => post)
+    delete = (req) => {
+        return this._db.Post.findOne({ where: { id: req.params.id } }).then(async (post) => {
+            await this._db.Post.destroy({ where: { id: req.params.id } }
+            ).then(() => {
+                this._db.Comment.destroy({ where: { postId: req.params.id } })
+            }).then(() => fs.unlink(__dirname + '/../assets/imgOfPosts/' + post.img, () => { }))
+            return await post
+        })
+    }
 
+    edit = async (req, res) => {
+        const newDate = { ...req.body };
+        req.file ? newDate['img'] = req.file.filename : null;
 
-        )
+        return this._db.Post.findOne({ where: { id: req.params.id } }).then(async (post) => {
+            const oldImgName = __dirname + '/../assets/imgOfPosts/' + post.img;
+            await post.update(newDate).then(() => {
+                req.file ? fs.unlink(oldImgName, () => { }) : null
+            });
+            return await {
+                id: post.id,
+                title: post.title,
+                userId: post.userId,
+                description: post.description,
+                img: post.img,
+                date: post.date,
+                ...newDate,
+            }
+        })
     }
 }
 
