@@ -10,6 +10,8 @@ route
     .use('/', crudRoutes('user'))
     .post("/add/friend", controller.addFriend)
     .delete("/delete/friend/:id", controller.deleteFriend)
+    .post("/add/requestInFriend", controller.addRequestInFriend)
+    .delete("/delete/requestInFriend/:id", controller.deleteRequestInFriend)
 
 module.exports = route;
 

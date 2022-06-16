@@ -25,7 +25,6 @@ class SocialNetworkServices {
         isFile ? requestObject['headers'] = this.headersForFile : { "Content-Type": "application/json" };
         id ? requestObject.url += `/${id}` : null;
         queryParams ? requestObject['params'] = queryParams : null
-
         const data = await axios(requestObject)
             .then(function (response) {
                 return response.data
@@ -33,7 +32,8 @@ class SocialNetworkServices {
                 console.log(error);
             })
         return await data;
-    }
+    };
+
 
     formBodyWithFile = (data) => {
         const body = new FormData();
@@ -77,6 +77,12 @@ class SocialNetworkServices {
     }
     deleteLike = (body) => this.requestOnServer('delete', 'likes/delete', '', body);
     addLike = (body) => this.requestOnServer('post', 'likes/add', '', body);
+
+    addFriend = (body) => this.requestOnServer('post', 'add/friend', '', body);
+    deleteFriend = (id_User, body) => this.requestOnServer('delete', 'delete/friend', id_User, body);
+    addRequestInFriend = (body) => this.requestOnServer('post', 'add/requestInFriend', '', body);
+    deleteRequestInFriend = (id_User, body) => this.requestOnServer('delete', 'delete/requestInFriend', id_User, body);
+
 }
 
 export default SocialNetworkServices;

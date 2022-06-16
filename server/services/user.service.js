@@ -5,27 +5,50 @@ const CRUD_Service = require('./crud.service');
 class UserService extends CRUD_Service {
     tableFields = ['name', 'mail', 'password'];
 
-    getAll = (req) => {
-        if (!req.query.id) {
-            return this._db.User.findAll({
+    getAll = async (req) => {
+
+        if (req.query.id) {
+            const requestInFriend = await this._db.User.findAll({
+                attributes: [],
+                where: { id: req.query.id },
                 include: {
                     model: User,
                     as: 'subscriber',
-                    attributes: ['id']
+                    attributes: ['user_name', 'id'],
                 },
-                attributes: ['user_name', 'id']
+            });
 
-            }).then(data => data);
-        } else {
-            return this._db.Friend.findAll({
+            const friend = await this._db.Friend.findAll({
                 attributes: ['status'],
-                where: { userId: 1 },
-                include: {
+                where: { userId: req.query.id, status: true },
+                include: [{
                     model: this._db.User,
                     attributes: ['user_name', 'id'],
                 }
+                ]
+            });
+
+            const subscriber = await this._db.Friend.findAll({
+                attributes: ['status'],
+                where: { userId: req.query.id, status: false },
+                include: [{
+                    model: this._db.User,
+                    attributes: ['user_name', 'id'],
+                }
+                ]
+            });
+
+            return {
+                requestInFriend,
+                friend,
+                subscriber
+            }
+        } else {
+            return this._db.User.findAll({
+                attributes: ['user_name', 'id']
             }).then(data => data);
         }
+
     };
 
     edit = (req, res) => {
@@ -41,20 +64,6 @@ class UserService extends CRUD_Service {
     }; */
 
 
-
-    addFriend = async (req, res) => {
-        const userId = 2;
-        const friendId = 5;
-        const body = { status: false } // из рек или контроллера
-
-        const friend_1 = await this._db.Friend.findOne({ where: { userId, friendId } });
-        const friend_2 = await this._db.Friend.findOne({ where: { userId: friendId, friendId: userId } });
-        const friend = friend_1 ? friend_1 : friend_2
-
-        const result = friend ? friend.update({ ...body }) : this._db.Friend.create({ id: uuidv4(), userId, friendId, status: false });
-        return (await result);
-
-    }
 
 
 }
