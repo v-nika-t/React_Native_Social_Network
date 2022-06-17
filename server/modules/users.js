@@ -3,8 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const User = (sequelize) => {
   return sequelize.define('user', {
     id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false
     },
@@ -24,6 +23,12 @@ const User = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+
     }
 
   })

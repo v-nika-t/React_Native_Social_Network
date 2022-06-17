@@ -1,38 +1,83 @@
 import { useState } from 'react';
-import { FlatList, Text, TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { Text, TouchableOpacity, TextInput, View, Button } from 'react-native';
+import styles from './styleStartForm';
 
-import Form from '../Form';
+import SocialNetworkService from '../../../services/SocialNetworkServices';
+
 
 const StartForm = () => {
-    const placeholder = { email: 'Введите email', password: "Введите пароль" };
-    const buttons = ['Войти', 'Зарегистрироваться'];
 
-    const [pressedButton, setPressedButton] = useState(buttons[0]);
-    const button = pressedButton;
+    const services = new SocialNetworkService('user')
+    const [signIn, setSignIn] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [user_name, setUser_name] = useState('');
+    const [answer, setAnswer] = useState('');
 
-    const action = pressedButton == buttons[0] ? 'SignIn' : "SignUp";
-    !(pressedButton == buttons[0]) ? (placeholder['username'] = 'Введите имя') : null
+    const validation = async () => {
+        if ((!email || !password) || (!signIn && !user_name)) {
+            setAnswer('Заполните все поля');
+            return;
+        }
+
+        const body = { email, password }
+        user_name ? body['user_name'] = user_name : null
+
+        const result = signIn ? await services.signIn(body) : await services.signUp(body)
+
+
+        switch (await result) {
+            case 'There is user':
+                setAnswer('Пользователь уже существует');
+                break
+            case 'There is not user':
+                setAnswer('Пользователь не существет');
+                break;
+            case 'Invalid password':
+                setAnswer('Не верный пароль');
+                break;
+            default:
+                console.log(result) // записать в state Redax
+                setPassword('');
+                setUser_name('');
+                setEmail('');
+                setAnswer('');
+        }
+    }
 
     return (
         <>
-            <FlatList
 
-                style={{ marginTop: 100 }}
-                data={buttons}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => setPressedButton(item)}>
-                        <Text>{item}</Text>
-                    </TouchableOpacity>
-                )}
-            />
-            <Form
-                placeholder={placeholder}
-                button={button}
-                action={action}
-            />
+            <View style={{ flex: 1 }}>
+                <View style={[styles.container, { color: "black" }]}>
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={() => { setSignIn(true), setAnswer('') }} >
+                            <Text style={[styles.text, { color: signIn ? 'black' : 'grey' }]}>Войти / </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { setSignIn(false), setAnswer('') }} >
+                            <Text style={[styles.text, { color: !signIn ? 'black' : 'grey' }]}>Зарегистрироваться</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.body}>
+                        {signIn ? null : (
+                            <TextInput value={user_name} onChangeText={setUser_name} placeholder='Введите имя пользователя' style={styles.input} />
+                        )}
+                        <TextInput value={email} onChangeText={setEmail} placeholder='Введите email' style={styles.input} />
+                        <TextInput value={password} onChangeText={setPassword} placeholder='Введите пароль' style={styles.input} />
+
+                    </View>
+                    <Text style={[{ color: 'red', fontSize: 20, alignSelf: 'center' }]}>{answer}</Text>
+                </View>
+                <Button styles={[styles.text]}
+                    color={'rgba(7, 186, 133, 1)'}
+                    title={signIn ? 'Войти' : 'Зарегистрироваться'}
+                    onPress={validation}>
+                </Button>
+            </View>
+
         </>
     )
 }
 
-
-export default StartForm; 
+export default StartForm;

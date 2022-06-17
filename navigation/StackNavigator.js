@@ -10,38 +10,43 @@ import FormPostAction from '../components/posts/formPostAction/FormPostAction'
 const Stack = createNativeStackNavigator();
 
 function StackNavigator() {
+
+    const isSignIn = false; // // помешаем state. При смене к примеру вошел поменялся. В Redax // будет наша Redax State
+
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="account" id="StackNavigator">
-                <Stack.Screen
+            <Stack.Navigator initialRouteName="startPage" id="StackNavigator">
+                {!isSignIn ? (<Stack.Screen
                     name="startPage"
                     component={StartForm}
                     options={{
                         headerShown: false,
                     }}
                 />
-                <Stack.Screen
-                    name="account"
-                    component={TabNavigator}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="comments"
-                    component={CommentsList}
-                    options={{ title: "Комментарии" }}
-                />
-                <Stack.Screen
-                    name="editPost"
-                    component={FormPostAction}
-                    options={{
-                        title: 'Изменить'
-                    }}
-                />
-                <Stack.Screen // сделать компоненту 
-                    name="adminPanel"
-                    component={CommentsList}
-                    options={{ title: "Комментарии" }}
-                />
+                ) : (<>
+                    <Stack.Screen
+                        name="account"
+                        component={TabNavigator}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="comments"
+                        component={CommentsList}
+                        options={{ title: "Комментарии" }}
+                    />
+                    <Stack.Screen
+                        name="editPost"
+                        component={FormPostAction}
+                        options={{
+                            title: 'Изменить'
+                        }}
+                    />
+                    <Stack.Screen // сделать компоненту 
+                        name="adminPanel"
+                        component={CommentsList}
+                        options={{ title: "Комментарии" }}
+                    />
+                </>)}
             </Stack.Navigator>
         </NavigationContainer>
     );

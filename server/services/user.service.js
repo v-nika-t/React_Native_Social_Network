@@ -57,13 +57,17 @@ class UserService extends CRUD_Service {
 
     };
 
-    /* getUserByEmail = (req, res) => {
-        return this.db
-            .findAll({ where: { mail: req.body.mail }, raw: true })
+    getAllWhere = (where) => {
+        return this._db.User
+            .findAll({ where })
             .then((data) => data);
-    }; */
+    };
 
-
+    add = (body) => {
+        return (this._db.User.create({ ...body, id: uuidv4() })
+            .then(data => data)
+            .catch(err => console.log(err)))
+    }
 
 
 }
