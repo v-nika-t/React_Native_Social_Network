@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { Text, TouchableOpacity, TextInput, View, Button } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { add, auth } from '../../../actions/user.action';
+1
 import styles from './styleStartForm';
-
 import SocialNetworkService from '../../../services/SocialNetworkServices';
 
 
@@ -14,18 +16,18 @@ const StartForm = () => {
     const [password, setPassword] = useState('');
     const [user_name, setUser_name] = useState('');
     const [answer, setAnswer] = useState('');
+    const dispatch = useDispatch();
+    //const state = useSelector(state => state)
 
     const validation = async () => {
         if ((!email || !password) || (!signIn && !user_name)) {
             setAnswer('Заполните все поля');
             return;
         }
-
         const body = { email, password }
         user_name ? body['user_name'] = user_name : null
 
         const result = signIn ? await services.signIn(body) : await services.signUp(body)
-
 
         switch (await result) {
             case 'There is user':
@@ -38,7 +40,8 @@ const StartForm = () => {
                 setAnswer('Не верный пароль');
                 break;
             default:
-                console.log(result) // записать в state Redax
+                dispatch(add(result))
+                dispatch(auth(true)); // подумать над токеном
                 setPassword('');
                 setUser_name('');
                 setEmail('');

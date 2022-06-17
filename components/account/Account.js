@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
 import { Text, TextInput, Button, View, TouchableWithoutFeedback } from 'react-native';
@@ -9,16 +10,22 @@ import styles from './styleAccountList';
 
 import SocialNetworkServices from '../../services/SocialNetworkServices';
 
+
 const Account = () => {
+
     const server = new SocialNetworkServices('user');
-    const props = { user_name: 'userName', email: "email@email.ru", password: '***', canAllSeeAccount: true };
-    const { user_name, email, password, canAllSeeAccount } = props;
-    const userId = 1;
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.user);
+    console.log(state)
+
+    //const props = { user_name: 'userName', email: "email@email.ru", password: '***', canAllSeeAccount: true };
+    const { user_name, email, canAllSeeAccount } = state;
+    const userId = state.id;
     const [edit, setEdit] = useState(false);
     const [error, setError] = useState(true);
     const [result, setResult] = useState('');
     const [isChecked, setIsChecked] = useState(canAllSeeAccount);
-    const initialValues = { user_name, email, password, canAllSeeAccount }
+    const initialValues = { user_name, email, password: '*********', canAllSeeAccount }
 
     const Titles = () => {
         return (
@@ -51,7 +58,7 @@ const Account = () => {
                 <View>
                     <Text style={{ fontSize: 20 }}>{user_name}</Text>
                     <Text style={{ fontSize: 20 }}>{email} </Text>
-                    <Text style={{ fontSize: 20 }}> {password} </Text>
+                    <Text style={{ fontSize: 20 }}> ********* </Text>
                     <AntDesign style={{ marginLeft: 10 }} name={isChecked ? 'checkcircle' : 'closecircle'} size={26} color={isChecked ? 'green' : 'red'} />
                 </View>
             </View>
