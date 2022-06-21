@@ -3,10 +3,9 @@ import * as SecureStore from 'expo-secure-store';
 import { Text, TouchableOpacity, TextInput, View, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, auth } from '../../../actions/user.action';
-1
+
 import styles from './styleStartForm';
 import SocialNetworkService from '../../../services/SocialNetworkServices';
-
 
 const StartForm = () => {
 
@@ -17,7 +16,7 @@ const StartForm = () => {
     const [user_name, setUser_name] = useState('');
     const [answer, setAnswer] = useState('');
     const dispatch = useDispatch();
-    //const state = useSelector(state => state)
+    const state = useSelector(state => state)
 
     const validation = async () => {
         if ((!email || !password) || (!signIn && !user_name)) {
@@ -40,8 +39,10 @@ const StartForm = () => {
                 setAnswer('Не верный пароль');
                 break;
             default:
-                dispatch(add(result))
-                dispatch(auth(true)); // подумать над токеном
+                //console.log(result);
+                SecureStore.setItemAsync('authorization', result.authorization);
+                dispatch(add(result.dataValues))
+                dispatch(auth(true));
                 setPassword('');
                 setUser_name('');
                 setEmail('');

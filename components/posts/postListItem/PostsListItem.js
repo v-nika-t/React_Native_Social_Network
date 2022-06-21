@@ -1,17 +1,24 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import { AntDesign, EvilIcons, SimpleLineIcons, Fontisto, Feather } from '@expo/vector-icons';
+
+import { Post } from '../../../services/SocialNetworkServices';
+import { remove } from '../../../actions/post.action';
 import styles from './stylePostLisyItem';
 
-
-
 const PostListItem = (props) => {
-    const { Owner_posts, Users_added_like_to_post, title, description, img, id, date } = props;
-    const { navigation, service, canDelete } = props;
 
+    const { Owner_posts, Users_added_like_to_post, title, description, img, id, date } = props;
+    const { navigation, canDelete } = props;
+
+    const service = Post;
     const pathImg = service.URL_WITH_PORT + '/' + img;
-    const user_name = '1_user_name';
-    const userId = 1;
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
+    const user_name = user.user_name;
+    const userId = user.id;
 
     const [isLike, setIsLike] = useState(Users_added_like_to_post.some(item => (item.user_name == user_name)))
     const [countLikes, setCountLikes] = useState(Users_added_like_to_post.length);
@@ -31,7 +38,7 @@ const PostListItem = (props) => {
 
     const deletePost = async (postId) => {
         const res = await service.delete(postId);
-        props.deletePost(res.id);
+        dispatch(remove(res.id))
     }
 
     return (

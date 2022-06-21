@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+import * as SecureStore from 'expo-secure-store';
 
 class SocialNetworkServices {
     _IP = '192.168.1.225';
@@ -6,35 +7,44 @@ class SocialNetworkServices {
     URL_WITH_PORT = `http://${this._IP}:${this._PORT}`;
     URL = `http://${this._IP}:${this._PORT}`;
 
-    headersForFile = {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
-    }
-
     constructor(nameDB) {
         this.URL += `/${nameDB}`;
+    }
+
+    getKeyAuthorization = async () => {
+        return await SecureStore.getItemAsync('authorization').then(data => data);
     }
 
     requestOnServer = async (method = 'get', action = "all", id = '', body = "", isFile = false, queryParams = '') => {
         const requestObject = {
             method: method,
             url: this.URL + `/${action}`,
+            headers: {
+                'authorization': await this.getKeyAuthorization(),
+                "Content-Type": "application/json",
+            }
         }
 
+        requestObject.headers = isFile ? {
+            ...requestObject.headers,
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data'
+        } : requestObject.headers;
+
+        console.log(this.getKeyAuthorization());
+
         body ? requestObject.data = body : null;
-        isFile ? requestObject['headers'] = this.headersForFile : { "Content-Type": "application/json" };
         id ? requestObject.url += `/${id}` : null;
         queryParams ? requestObject['params'] = queryParams : null
 
         const data = await axios(requestObject)
             .then(function (response) {
-                return response.data
+                return response.data;
             }).catch(error => {
                 console.log(error);
             })
         return await data;
     };
-
 
     formBodyWithFile = (data) => {
         const body = new FormData();
@@ -42,8 +52,8 @@ class SocialNetworkServices {
             if (key == 'uri') {
                 body.append('img', {
                     uri: data[key],
-                    type: 'image/jpg',
-                    name: 'img'
+                    type: 'image/' + data[key].slice(-3),
+                    name: data[key].slice(data[key].lastIndexOf('/') + 1)
                 });
             } else {
                 body.append(key, data[key]);
@@ -87,6 +97,12 @@ class SocialNetworkServices {
 
 }
 
-/* export { User } from new SocialNetworkServices('user'); */
+const User = new SocialNetworkServices('user');
+const Post = new SocialNetworkServices('post');
+const Comment = new SocialNetworkServices('comment');
+
+export { User, Post, Comment };
 export default SocialNetworkServices;
+
+
 

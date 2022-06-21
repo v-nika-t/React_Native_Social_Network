@@ -1,6 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { TouchableWithoutFeedback } from 'react-native';
+import { useDispatch } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
 
+import { auth } from '../actions/user.action'
 import DrawerNavigator from './DrawerNavigator';
 import Account from '../components/account/Account';
 import UsertList from '../components/users/userList/UserList';
@@ -10,6 +14,8 @@ const Tab = createBottomTabNavigator();
 
 
 function TabNavigator() {
+    const dispatch = useDispatch();
+
     return (
         <Tab.Navigator
             initialRouteName="news"
@@ -50,7 +56,16 @@ function TabNavigator() {
                     tabBarIcon: ({ color }) => (
                         <MaterialIcons name="account-circle" size={30} color={color} />
                     ),
+                    headerRight: () => (
+                        <TouchableWithoutFeedback onPress={() => {
+                            dispatch(auth(false));
+                            SecureStore.setItemAsync('authorization', '');
+                        }} >
+                            <Entypo style={{ marginRight: 20 }} name="log-out" size={25} color="black" />
+                        </TouchableWithoutFeedback>
+                    )
                 }}
+
             />
         </Tab.Navigator>
     );

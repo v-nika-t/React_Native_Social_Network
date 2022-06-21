@@ -1,40 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Image, ScrollView } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
-import SocialNetworkServices from '../../../services/SocialNetworkServices';
+import { add } from '../../../actions/post.action';
+import { Post } from '../../../services/SocialNetworkServices';
 import PostListItem from '../postListItem/PostsListItem';
 
 const PostList = ({ navigation, route }) => {
-    const service = new SocialNetworkServices('post');
+    const service = Post;
     const pathImage = '../../../assets/spinner.gif';
-    const [data, setData] = useState('');
     const [loading, setLoading] = useState(true);
-    const userId = 2;
+    const { id } = useSelector(state => state.user);
+    const post = useSelector(state => state.post);
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const queryParams = route.name == 'ownPost' ? { id: userId } : '';
-        service.getAll(queryParams)
-            .then(data => setData(data))
-            .then(setLoading(false))
-    }, []);
-
-    const deletePost = (id) => {
-        setData(data => data.filter(item => item.id !== id));
-    }
-
-    /*   const editPost = (id,newData) => {
-          setData(data => data.map(item => item.id !== id ? item : newData ));
-      } */
+    useFocusEffect(
+        useCallback(() => {
+            const queryParams = route.name == 'ownPost' ? { id } : '';
+            service.getAll(queryParams)
+                .then(data => dispatch(add(data)))
+                .then(setLoading(false));
+            if (route.name !== 'ownPost') {
+                return () => dispatch(add([]))
+            }
+        }, [])
+    );
 
     const spinner = loading ? <Image source={require(pathImage)} /> : null
-    const content = data ? data.map(item => {
+    const content = post ? post.map(item => {
         return (<PostListItem
             navigation={navigation}
             key={item.id}
             {...item}
-            service={service}
             canDelete={route.name == 'ownPost' ? true : false}
-            deletePost={deletePost}
         />)
     }) : null
 

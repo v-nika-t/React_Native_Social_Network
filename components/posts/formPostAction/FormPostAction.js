@@ -1,17 +1,25 @@
 import { useCallback, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { useFocusEffect } from '@react-navigation/native';
 import { View, TextInput, Button, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 
-import SocialNetworkServices from '../../../services/SocialNetworkServices';
+
+import { Post } from '../../../services/SocialNetworkServices';
+import { add, edit } from '../../../actions/post.action';
 import styles from './styleFormPostAction';
 
 const FormPostAction = ({ navigation, route }) => {
 
-    const server = new SocialNetworkServices('post');
-    const userId = 1;
+    const server = Post;
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user);
+    const post = useSelector(state => state.post);
+    const userId = user.id;
+
     const placeholder = {
         title: 'Введите заголовок',
         description: 'Введите описание'
@@ -28,22 +36,16 @@ const FormPostAction = ({ navigation, route }) => {
 
     const pickImage = async () => { // Закгрузка картинок
 
-        ImagePicker.openPicker({
-            width: 300,
-            height: 400,
-            cropping: true
-        }).then(image => {
-            console.log(image);
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: false,
+            aspect: [4, 3],
+            quality: 1,
+
         });
 
-        /*     let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsEditing: false,
-                aspect: [4, 3],
-                quality: 1,
-    
-            });
-            !result.cancelled ? setImage(result.uri) : null; */
+        !result.cancelled ? setImage(result.uri) : null;
 
     };
 
@@ -53,12 +55,16 @@ const FormPostAction = ({ navigation, route }) => {
             setError(true);
             return
         }
-
         typeof image !== 'undefined' ? values['uri'] = image : null
         values['userId'] = userId;
 
         server.add(values)
             .then((data) => {
+                dispatch(add({
+                    ...data,
+                    Owner_posts: { "user_name": user.user_name },
+                    Users_added_like_to_post: []
+                }, true))
                 actions.resetForm();
                 setImage(null);
                 setResult('Запись добавлена')
@@ -70,12 +76,10 @@ const FormPostAction = ({ navigation, route }) => {
     }
 
     const editPost = (values) => {
-        typeof image !== 'undefined' ? values['uri'] = image : null
+        image !== null ? values['uri'] = image : null
         server.edit(route.params.id, values)
-            .then((data) => {
-                console.log(data);
-                navigation.goBack();
-            }).catch(e => setResult('Что-то пошло НЕ так: ' + e))
+            .then((data) => dispatch(edit(data)))
+            .then(navigation.goBack()).catch(e => setResult('Что-то пошло НЕ так: ' + e))
     }
 
     const unFocus = (props) => useFocusEffect(

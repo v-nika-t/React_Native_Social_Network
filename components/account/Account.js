@@ -9,6 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import styles from './styleAccountList';
 
 import SocialNetworkServices from '../../services/SocialNetworkServices';
+import { changeDataAccount } from '../../actions/user.action';
 
 
 const Account = () => {
@@ -16,16 +17,15 @@ const Account = () => {
     const server = new SocialNetworkServices('user');
     const dispatch = useDispatch();
     const state = useSelector(state => state.user);
-    console.log(state)
+    //console.log(state)
 
-    //const props = { user_name: 'userName', email: "email@email.ru", password: '***', canAllSeeAccount: true };
     const { user_name, email, canAllSeeAccount } = state;
     const userId = state.id;
     const [edit, setEdit] = useState(false);
     const [error, setError] = useState(true);
     const [result, setResult] = useState('');
     const [isChecked, setIsChecked] = useState(canAllSeeAccount);
-    const initialValues = { user_name, email, password: '*********', canAllSeeAccount }
+    const initialValues = { user_name, email, canAllSeeAccount }
 
     const Titles = () => {
         return (
@@ -48,6 +48,7 @@ const Account = () => {
     )
 
     return (<>
+
         {!edit ? (<>
 
             <TouchableWithoutFeedback onPress={() => setEdit(true)}>
@@ -58,15 +59,15 @@ const Account = () => {
                 <View>
                     <Text style={{ fontSize: 20 }}>{user_name}</Text>
                     <Text style={{ fontSize: 20 }}>{email} </Text>
-                    <Text style={{ fontSize: 20 }}> ********* </Text>
+                    <Text style={{ fontSize: 20 }}> ******** </Text>
                     <AntDesign style={{ marginLeft: 10 }} name={isChecked ? 'checkcircle' : 'closecircle'} size={26} color={isChecked ? 'green' : 'red'} />
                 </View>
             </View>
         </>) : (<Formik
             initialValues={initialValues}
             onSubmit={async (values) => {
-                const result = server.edit(userId, { ...values, canAllSeeAccount: isChecked });
-                console.log(await result); // Записать результат в State
+                const result = await server.edit(userId, { ...values, canAllSeeAccount: isChecked });
+                result == 'done' ? dispatch(changeDataAccount(values)) : null;  // Записать результат в State
                 setEdit(false);
             }}
         >
@@ -93,9 +94,10 @@ const Account = () => {
                                 />
                                 <TextInput
                                     textContentType='password'
+                                    secureTextEntry={true}
                                     style={styles.input}
                                     value={props.values.password}
-                                    placeholder='Пароль'
+                                    placeholder='Новый пароль'
                                     onChangeText={props.handleChange('password')}
                                 />
                                 <View style={styles.container} >

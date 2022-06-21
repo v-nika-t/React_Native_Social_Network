@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { User } = require('../modules');
 const CRUD_Service = require('./crud.service');
+const bcrypt = require('bcrypt');
 
 class UserService extends CRUD_Service {
     tableFields = ['name', 'mail', 'password'];
@@ -51,11 +52,6 @@ class UserService extends CRUD_Service {
 
     };
 
-    edit = (req, res) => {
-        const comment = { ...req.body };
-        return this._db.User.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
-
-    };
 
     getAllWhere = (where) => {
         return this._db.User
@@ -63,8 +59,17 @@ class UserService extends CRUD_Service {
             .then((data) => data);
     };
 
-    add = (body) => {
-        return (this._db.User.create({ ...body, id: uuidv4() })
+    edit = async (req, res) => {
+        if (req.body.password) {
+            const hash = await bcrypt.hash(req.body.password, 10);
+            req.body.password = hash
+        }
+        return this._db.User.update({ ...req.body }, { where: { id: req.params.id } }).then(() => 'done')
+    };
+
+    add = async (req, res) => {
+        const hash = await bcrypt.hash(req.body.password, 10);
+        return (this._db.User.create({ ...req.body, id: uuidv4(), password: hash })
             .then(data => data)
             .catch(err => console.log(err)))
     }

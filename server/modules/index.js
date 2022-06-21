@@ -46,7 +46,7 @@ Post.belongsToMany(User, { through: LikeofPost, as: 'Users_added_like_to_post', 
 
 
 
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync({ alert: true }).then(() => {
     console.log('Tables have been created')
 }).catch(err => console.log(err));
 

@@ -6,7 +6,7 @@ const reducer = (state = { signIn: false }, action) => {
                 signIn: true
 
             }
-        case 'SIGN_UP':
+        case 'LOG_OUT':
             return {
                 ...state,
                 signIn: false

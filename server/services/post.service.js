@@ -68,21 +68,24 @@ class PostService extends CRUD_Service {
         const newDate = { ...req.body };
         req.file ? newDate['img'] = req.file.filename : null;
 
-        return this._db.Post.findOne({ where: { id: req.params.id } }).then(async (post) => {
-            const oldImgName = __dirname + '/../assets/imgOfPosts/' + post.img;
-            await post.update(newDate).then(() => {
-                req.file ? fs.unlink(oldImgName, () => { }) : null
-            });
-            return await {
-                id: post.id,
-                title: post.title,
-                userId: post.userId,
-                description: post.description,
-                img: post.img,
-                date: post.date,
-                ...newDate,
-            }
-        })
+        const post = await this._db.Post.findOne({ where: { id: req.params.id } });
+        const oldImgName = __dirname + '/../assets/imgOfPosts/' + post.img;
+        this._db.Post.update({ ...newDate }, { where: { id: req.params.id } }).then((data) => {
+            req.file ? fs.unlink(oldImgName, () => { }) : null;
+        });
+
+        return {
+            id: post.id,
+            title: post.title,
+            userId: post.userId,
+            description: post.description,
+            img: post.img,
+            date: post.date.toLocaleString('ru', { day: 'numeric', month: 'long', year: "2-digit" }),
+            ...newDate,
+        }
+
+
+
     }
 }
 
