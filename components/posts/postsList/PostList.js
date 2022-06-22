@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Image, ScrollView } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -27,23 +27,34 @@ const PostList = ({ navigation, route }) => {
         }, [])
     );
 
-    const spinner = loading ? <Image source={require(pathImage)} /> : null
-    const content = post ? post.map(item => {
-        return (<PostListItem
-            navigation={navigation}
-            key={item.id}
-            {...item}
-            canDelete={route.name == 'ownPost' ? true : false}
-        />)
-    }) : null
+    const spinner = loading ? (
+        <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
+            <Image source={require(pathImage)} />
+        </View>
+    ) : null;
 
+    const content = post ? post.map(item => {
+        return (
+            <PostListItem
+                navigation={navigation}
+                key={item.id}
+                {...item}
+                canDelete={route.name == 'ownPost' ? true : false}
+            />
+        )
+    }) : null;
     return (
-        <ScrollView>
+        <ScrollView style={{ flex: 1 }}>
             {spinner}
             {content}
         </ScrollView>
+
+
     )
 }
 
 export default PostList;
-

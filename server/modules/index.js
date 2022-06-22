@@ -46,18 +46,9 @@ Post.belongsToMany(User, { through: LikeofPost, as: 'Users_added_like_to_post', 
 
 
 
-sequelize.sync({ alert: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
     console.log('Tables have been created')
 }).catch(err => console.log(err));
-
-
-
-
-/* const x = async () => {
-    const a = await Friend.findAll({ where: { userId: 1 }, include: User });
-    console.log(JSON.stringify(a, null, 2));
-};
-x(); */
 
 
 module.exports = { User, Post, Comment, Friend, Role, LikeofComment, LikeofPost }

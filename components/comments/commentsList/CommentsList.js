@@ -1,5 +1,6 @@
 import { Text, Button, TextInput, Image, ScrollView, View, TouchableWithoutFeedback } from "react-native";
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SimpleLineIcons, AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
 import SocialNetworkServices from '../../../services/SocialNetworkServices';
@@ -9,8 +10,11 @@ const CommentsList = ({ route }) => {
     const service = new SocialNetworkServices('comment');
     const pathImage = '../../../assets/spinner.gif';
     const postId = route.params.postId;
-    const userId = 3;
-    const user_name = '3_user_name';
+
+    const user = useSelector(state => state.user);
+
+    const userId = user.id;
+    const user_name = user.user_name;
 
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(true);
@@ -23,8 +27,13 @@ const CommentsList = ({ route }) => {
     }, []);
 
     const addComment = async () => {
-        const res = await service.add({ description: text, userId: userId, postId: postId });
-        setData(data => [...data, { ...res, user: { user: "1_user_name" } }]);
+        const res = await service.add({ description: text, userId, postId });
+        setData(data => [{
+            ...res, "Owner_comments": {
+                "id": userId,
+                user_name,
+            }
+        }, ...data]);
         setText('');
     }
 
@@ -52,17 +61,23 @@ const CommentsList = ({ route }) => {
             const [edit, setEdit] = useState(false);
             const [editComment, setEditComment] = useState(item.description);
             const [countLikes, setCountLikes] = useState(item.Users_added_like_to_comment.length);
+            const [block, setBlock] = useState(false);
 
-            const addLike = (commentId) => {
-                if (item.Owner_comments.id == userId) { return }
+            const addLike = (commentId, Owner_comments) => {
+                if (Owner_comments == userId) { return }
+                setBlock(true);
                 if (isLike) {
-                    service.deleteLike({ userId: userId, commentId: commentId });
-                    setIsLike(false);
-                    setCountLikes(countLikes => --countLikes)
+                    service.deleteLike({ userId, commentId }).then(data => {
+                        setIsLike(false);
+                        setCountLikes(countLikes => --countLikes);
+                        setBlock(false);
+                    });
                 } else {
-                    service.addLike({ userId: userId, commentId: commentId });
-                    setIsLike(true);
-                    setCountLikes(countLikes => ++countLikes)
+                    service.addLike({ userId, commentId }).then(data => {
+                        setIsLike(true);
+                        setCountLikes(countLikes => ++countLikes);
+                        setBlock(false);
+                    })
                 }
             }
             const changeComment = (commentId) => {
@@ -76,15 +91,15 @@ const CommentsList = ({ route }) => {
             }
 
             return (
-                <View key={item.id} >
-                    <Text>
+                <View key={item.id}  >
+                    <Text style={{ fontSize: 20 }}>
                         <AntDesign name="user" size={20} color="black" />
                         <Text style={{ fontWeight: 'bold' }}> {item.Owner_comments.user_name} </Text>
                         <Text style={{ fontStyle: 'italic' }}>{item.date} </Text>
                     </Text>
                     {!edit ? (
                         <View style={styles.container}>
-                            <Text>{item.description}</Text>
+                            <Text style={{ fontSize: 20 }}>{item.description}</Text>
                             <View>
                                 {(user_name == item.Owner_comments.user_name) && !edit ? (
                                     <View style={styles.container}>
@@ -105,6 +120,7 @@ const CommentsList = ({ route }) => {
                                 onChangeText={setEditComment}
                                 value={editComment}
                                 placeholder='Коментарий'
+                                style={styles.input}
                             />
                             <TouchableWithoutFeedback onPress={() => changeComment(item.id)}>
                                 <Ionicons name="checkmark-circle" size={24} color="green" />
@@ -113,18 +129,25 @@ const CommentsList = ({ route }) => {
                         </View>
                     )}
                     <Text>
-                        <TouchableWithoutFeedback onPress={() => addLike(item.Owner_comments.id)}>
-                            <SimpleLineIcons name="like" size={20} color={isLike ? 'red' : 'black'} />
+                        <TouchableWithoutFeedback onPress={() => block ? null : addLike(item.id, item.Owner_comments.id)}>
+                            <SimpleLineIcons name="like" size={25} color={isLike ? 'red' : 'black'} />
                         </TouchableWithoutFeedback>
-                        <Text> {countLikes} </Text>
+                        <Text style={{ fontSize: 20 }}> {countLikes} </Text>
                     </Text>
                 </View>
             )
         }
         ) : null;
     }
-
-    const spinner = loading ? <Image style={{ marginTop: 200 }} source={require(pathImage)} /> : null
+    const spinner = loading ? (
+        <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
+            <Image source={require(pathImage)} />
+        </View>
+    ) : null;
     const content = data ? <Comments data={data} changeDate={changeDate} /> : null
 
     return (
@@ -133,9 +156,10 @@ const CommentsList = ({ route }) => {
                 onChangeText={setText}
                 value={text}
                 placeholder='Коментарий'
+                style={styles.input}
             />
             <Button onPress={addComment} title="Добавить" />
-            <ScrollView>
+            <ScrollView style={{ marginTop: 10 }}>
                 {spinner}
                 {content}
             </ScrollView>
