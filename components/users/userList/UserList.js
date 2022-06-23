@@ -1,13 +1,14 @@
 import { Image, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { View, TextInput, Text, TouchableWithoutFeedback } from 'react-native';
 
 import styles from './styleUserList';
-import SocialNetworkServices from '../../../services/SocialNetworkServices';
+import { User } from '../../../services/SocialNetworkServices';
 
 const UsertList = () => {
-    const service = new SocialNetworkServices('user');
+    const service = User;
     const pathImage = '../../../assets/spinner.gif';
     const [data, setData] = useState('');
     const [searchedUsers, setSearchedUsers] = useState([]);
@@ -15,16 +16,18 @@ const UsertList = () => {
 
     const [filter, setFilter] = useState('friends');
     const [search, setSearch] = useState('');
+    const user = useSelector(state => state.user);
 
     const activColor = 'rgba(7, 186, 133, 1)';
     const notActiveColor = 'rgba(7, 186, 133, 0.5)';
 
-    const id = 1;
-    const userId = 1;
+    const userId = user.id;
 
     useEffect(() => {
-        service.getAll({ id: id })
-            .then(data => setData(data))
+        service.getAll({ id: userId })
+            .then(data => {
+                setData(data)
+            })
             .then(setLoading(false))
     }, []);
 

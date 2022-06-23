@@ -1,6 +1,6 @@
 import { Text, Button, TextInput, Image, ScrollView, View, TouchableWithoutFeedback } from "react-native";
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { SimpleLineIcons, AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
 import SocialNetworkServices from '../../../services/SocialNetworkServices';

@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderWidth: 1,
         backgroundColor: '#E6E6FA',
+
     },
 
     header: {

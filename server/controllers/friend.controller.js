@@ -8,7 +8,6 @@ class FriendController {
     db = DB_Friend
 
     addFriend = (req, res) => { // ++
-        console.log('addFriend', { userId: req.body.friendId, friendId: req.body.userId, status: true });
         this.db.add({ userId: req.body.friendId, friendId: req.body.userId, status: true })
             .then((data) => {
                 this.db.edit({ status: true }, { ...req.body })

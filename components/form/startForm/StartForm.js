@@ -1,22 +1,27 @@
 import { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { Text, TouchableOpacity, TextInput, View, Button } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { add, auth } from '../../../actions/user.action';
+import { useDispatch } from 'react-redux';
 
+import { add, auth } from '../../../actions/user.action';
 import styles from './styleStartForm';
-import SocialNetworkService from '../../../services/SocialNetworkServices';
+import { User } from '../../../services/SocialNetworkServices';
 
 const StartForm = () => {
+    const services = User;
 
-    const services = new SocialNetworkService('user')
     const [signIn, setSignIn] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user_name, setUser_name] = useState('');
     const [answer, setAnswer] = useState('');
+
     const dispatch = useDispatch();
-    const state = useSelector(state => state)
+
+    const changeVerify = (data) => {
+        dispatch(add(data))
+        dispatch(auth(true));
+    }
 
     const validation = async () => {
         if ((!email || !password) || (!signIn && !user_name)) {
@@ -39,10 +44,9 @@ const StartForm = () => {
                 setAnswer('Не верный пароль');
                 break;
             default:
-                //console.log(result);
-                SecureStore.setItemAsync('authorization', result.authorization);
-                dispatch(add(result.dataValues))
-                dispatch(auth(true));
+                await SecureStore.setItemAsync('authorization', result.authorization);
+                await SecureStore.setItemAsync('userId', result.dataValues.id);
+                changeVerify(result.dataValues)
                 setPassword('');
                 setUser_name('');
                 setEmail('');
@@ -52,7 +56,6 @@ const StartForm = () => {
 
     return (
         <>
-
             <View style={{ flex: 1 }}>
                 <View style={[styles.container, { color: "black" }]}>
                     <View style={styles.header}>

@@ -52,6 +52,20 @@ class UserService extends CRUD_Service {
 
     };
 
+    getOne = (req, res) => {
+        return this._db.User
+            .findAll({
+                where: { id: req.params.id }, raw: false,
+                include: {
+                    model: this._db.Role,
+                    attributes: ['name'],
+
+                }
+
+            })
+            .then((data) => data);
+    };
+
 
     getAllWhere = (where) => {
         return this._db.User
@@ -72,6 +86,11 @@ class UserService extends CRUD_Service {
         return (this._db.User.create({ ...req.body, id: uuidv4(), password: hash })
             .then(data => data)
             .catch(err => console.log(err)))
+    }
+
+    delete = (req) => {
+        return this._db.User.destroy({ where: { id: req.params.id } }
+        ).then(() => req.params.id).catch(err => err);
     }
 
 

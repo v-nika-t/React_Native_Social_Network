@@ -79,7 +79,6 @@ function createPostsForOneUser(id_users, count) {
 
 //createPostsForOneUser('a1f9f054-f95d-49db-b9eb-27f75710ef7d',10)
 
-
 function createComment(postId, userId) {
     DB.Comment.create({
         id: uuidv4(),
@@ -104,15 +103,36 @@ function createLikeofComment(commentId, userId) {
 
 //createLikeofComment('069d7774-96ee-4ca3-952c-755fad84e3c0', '59d8669a-8ec1-40d6-b383-46233b2c584f')
 
+function createStringInFriend(userId, friendId, status) {
+    DB.Friend.create({
+        id: uuidv4(),
+        friendId,
+        userId,
+        status
+    })
+}
 
+
+/* createStringInFriend('c7940b6c-ac94-44b6-9b6a-e145dc40a101', 'e34d7388-e352-484a-9b4a-1927ae8ed391', true)
+createStringInFriend('e34d7388-e352-484a-9b4a-1927ae8ed391', 'c7940b6c-ac94-44b6-9b6a-e145dc40a101', true)
+createStringInFriend('c7940b6c-ac94-44b6-9b6a-e145dc40a101', 'c62e77bf-a265-4420-a76d-df24a0a6d1fe', false)
+
+ */
+
+
+//DB.Role.findAll({raw: true}).then(data => console.log(data))
 
 //DB.User.findAll({ raw: true }).then(data => console.log(data))
+
 //DB.Post.findAll({ raw: true }).then(data => console.log(data))
 //DB.Post.findAll({ raw: true, where: { userId: 'a1f9f054-f95d-49db-b9eb-27f75710ef7d' } }).then(data => console.log(data))
-//DB.Role.findAll({raw: true}).then(data => console.log(data))
+
 //DB.Comment.findAll({ raw: true }).then(data => console.log(data))
 
-DB.LikeofComment.findAll({ raw: true }).then(data => console.log(data))
+//DB.LikeofComment.findAll({ raw: true }).then(data => console.log(data))
+//DB.LikeofPost.findAll({ raw: true }).then(data => console.log(data))
+
+//DB.Friend.findAll({ raw: true }).then(data => console.log(data))
 
 
 

@@ -9,9 +9,12 @@ import styles from './stylePostLisyItem';
 
 const PostListItem = (props) => {
 
-    const { Owner_posts, Users_added_like_to_post, title, description, img, id, date } = props;
+    const { Users_added_like_to_post, title, description, img, id, date } = props;
     const { navigation, canDelete } = props;
+    /*     console.log(props); */
 
+    let { Owner_posts } = props;
+    Owner_posts == null ? Owner_posts = 'delete_User' : null;
     const service = Post;
     const pathImg = service.URL_WITH_PORT + '/' + img;
     const user = useSelector(state => state.user);

@@ -1,16 +1,16 @@
 import 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import StackNavigator from './navigation/StackNavigator';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
+import * as SplashScreen from 'expo-splash-screen';
 
+import Auth from './components/Auth';
 import store from './store/store';
+
+SplashScreen.preventAutoHideAsync();
 
 function App() {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <StackNavigator />
-      </SafeAreaProvider>
+      <Auth />
     </Provider>
 
   );

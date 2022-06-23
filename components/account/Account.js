@@ -17,7 +17,6 @@ const Account = () => {
     const server = new SocialNetworkServices('user');
     const dispatch = useDispatch();
     const state = useSelector(state => state.user);
-    //console.log(state)
 
     const { user_name, email, canAllSeeAccount } = state;
     const userId = state.id;
