@@ -8,6 +8,7 @@ import StartForm from '../components/form/startForm/StartForm';
 import CommentsList from '../components/comments/commentsList/CommentsList';
 import FormPostAction from '../components/posts/formPostAction/FormPostAction';
 import FormActionWithUser from '../components/adminPanel/formActionWithUser/FormActionWithUser';
+import ChatWithUser from '../components/chatWithUser/ChatWithUser';
 
 
 const Stack = createNativeStackNavigator();
@@ -16,9 +17,8 @@ function StackNavigator() {
     const isSignIn = useSelector(state => state.auth.signIn);
     //const isAdmin = useSelector(state => state.auth.isAdmin);
 
-    const isAdmin = true;
+    const isAdmin = false;
 
-    SplashScreen.hideAsync();
     return (
         <NavigationContainer >
             <Stack.Navigator initialRouteName="startPage" id="StackNavigator">
@@ -47,6 +47,13 @@ function StackNavigator() {
                             component={FormPostAction}
                             options={{
                                 title: 'Изменить'
+                            }}
+                        />
+                        <Stack.Screen
+                            name="chatWithUser"
+                            component={ChatWithUser}
+                            options={{
+                                title: 'Чат'
                             }}
                         />
                     </>

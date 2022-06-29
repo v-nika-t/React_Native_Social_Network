@@ -46,7 +46,11 @@ class UserService extends CRUD_Service {
             }
         } else {
             return this._db.User.findAll({
-                attributes: ['user_name', 'id']
+                include: {
+                    model: this._db.Role,
+                    attributes: ['name'],
+
+                }
             }).then(data => data);
         }
 
@@ -83,9 +87,17 @@ class UserService extends CRUD_Service {
 
     add = async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        return (this._db.User.create({ ...req.body, id: uuidv4(), password: hash })
-            .then(data => data)
-            .catch(err => console.log(err)))
+        const user = await this._db.User.create({ ...req.body, id: uuidv4(), password: hash });
+        return this._db.User.findAll({
+            where: { id: user.id }, raw: false,
+            include: {
+                model: this._db.Role,
+                attributes: ['name'],
+
+            }
+        }).then(data => data)
+            .catch(err => console.log(err))
+
     }
 
     delete = (req) => {

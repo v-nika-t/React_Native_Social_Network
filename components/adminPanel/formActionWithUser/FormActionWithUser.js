@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { View, TextInput, Button, Text, ScrollView } from 'react-native';
@@ -12,6 +12,7 @@ import styles from './styleFormActionWithUser';
 
 const FormActionWithUser = ({ navigation, route }) => {
 
+    const user = useSelector(state => state.user.foundUsers)
     const service = User;
     const placeholder = {
         email: 'Введите email',
@@ -19,25 +20,14 @@ const FormActionWithUser = ({ navigation, route }) => {
         password: 'Введите пароль'
     };
 
+
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [user_name, setUser_name] = useState('');
-    const [isChecked, setIsChecked] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [email, setEmail] = useState(route.params ? route.params.email : '');
+    const [user_name, setUser_name] = useState(route.params ? route.params.user_name : '');
+    const [isChecked, setIsChecked] = useState(route.params ? route.params.canAllSeeAccount : true);
+    const [isAdmin, setIsAdmin] = useState(route.params ? (route.params.role.name == 'admin' ? true : false) : false);
 
     const dispatch = useDispatch();
-
-
-    useEffect(() => {
-        route.params !== undefined ? service.getOne(route.params.userId).then(data => {
-            const { email, user_name, isChecked, role } = data[0];
-            setEmail(email);
-            setUser_name(user_name);
-            setIsChecked(isChecked);
-            console.log(role.name);
-            setIsAdmin(role.name == 'admin' ? true : false)
-        }) : null;
-    }, [route.params])
 
     const [result, setResult] = useState('');
     const [error, setError] = useState(false);
@@ -50,7 +40,7 @@ const FormActionWithUser = ({ navigation, route }) => {
         }
         service.add({ email, user_name, password, role: isAdmin ? 2 : 1 })
             .then((data) => {
-                dispatch(addUser({ id: data.id, user_name: data.user_name, }, true))
+                dispatch(addUser(data, true))
                 setEmail('');
                 setUser_name('');
                 setPassword('')
@@ -68,15 +58,23 @@ const FormActionWithUser = ({ navigation, route }) => {
             setError(true);
             return
         }
-        const newDate = { email, user_name, password, canAllSeeAccount: isChecked };
+        const newDate = { email, user_name, password, canAllSeeAccount: isChecked, role: isAdmin ? 2 : 1 };
         password ? newDate['password'] = password : null;
-        isAdmin ? newDate['role'] = isAdmin : null;
-        const result = await service.edit(route.params.userId, newDate);
+        const result = await service.edit(route.params.id, newDate);
+
 
         if (result == 'done') {
-            dispatch(editUser({ id: route.params.userId, user_name }));
+            dispatch(editUser({
+                ...route.params,
+                email,
+                user_name,
+                password,
+                canAllSeeAccount: isChecked,
+                role: { name: isAdmin ? 'admin' : 'user' }
+            }));
             navigation.goBack()
         } else {
+            console.log(result)
             setResult('Что-то пошло не так');
             setError(true);
         }
@@ -100,6 +98,8 @@ const FormActionWithUser = ({ navigation, route }) => {
                 <View style={styles.container}>
                     <TextInput
                         style={styles.input}
+
+
                         value={user_name}
                         placeholder={placeholder.user_name}
                         onChangeText={setUser_name}
@@ -134,8 +134,8 @@ const FormActionWithUser = ({ navigation, route }) => {
                         size={25}
                         fillColor='green'
                         unfillColor="#FFFFFF"
-                        isAdmin={isAdmin}
-                        onPress={() => setIsChecked(isAdmin => !isAdmin)}
+                        isChecked={isAdmin}
+                        onPress={() => setIsAdmin(isAdmin => !isAdmin)}
                         iconStyle={{
                             borderColor: 'grey'
                         }}

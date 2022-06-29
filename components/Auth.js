@@ -4,33 +4,35 @@ import { useDispatch } from 'react-redux';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect } from 'react';
+import AppLoading from 'expo-app-loading';
 
 import StackNavigator from '../navigation/StackNavigator';
-import { add, auth, changeRole } from '../actions/user.action';
+import { addDataAccount, auth, changeRole } from '../actions/auth.action';
 import { User } from '../services/SocialNetworkServices';
 
-
+SecureStore.setItemAsync('userId', '')
 function Auth() {
     const dispatch = useDispatch();
     const services = User;
 
+    const x = async () => {
+        const userId = await SecureStore.getItemAsync('userId');
+        const result = await services.getOne(userId);
+
+        console.log(result);
+    }
+
     useEffect(() => {
-        SecureStore.getItemAsync('userId').then(userId => {
-            services.getOne(userId).then(data => {
-                if ((data !== 'jwt is not correct') && (data !== undefined)) {
-                    console.log(data[0]);
-                    dispatch(add(data[0]))
-                    dispatch(auth(true));
-                    dispatch(changeRole(data[0].role.name));
-                }
-            }).then(/* SplashScreen.hideAsync() */)
-        })
+        x();
+
     }, [])
 
     return (
-        <SafeAreaProvider>
-            <StackNavigator />
-        </SafeAreaProvider>
+        <>
+            <SafeAreaProvider>
+                <StackNavigator />
+            </SafeAreaProvider>
+        </>
 
     );
 }

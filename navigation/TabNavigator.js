@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Entypo, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { Entypo, MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
@@ -8,6 +8,7 @@ import { auth } from '../actions/user.action'
 import DrawerNavigator from './DrawerNavigator';
 import Account from '../components/account/Account';
 import UsertList from '../components/users/userList/UserList';
+import ChatList from '../components/chatList/ChatList';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +49,18 @@ function TabNavigator() {
                 }}
             />
             <Tab.Screen
+                name="chatList"
+                component={ChatList}
+                options={{
+                    title: 'Сообщения',
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color }) => (
+                        <AntDesign name="wechat" size={30} color={color} />
+                    )
+                }}
+
+            />
+            <Tab.Screen
                 name="profile"
                 component={Account}
                 options={{
@@ -67,6 +80,8 @@ function TabNavigator() {
                 }}
 
             />
+
+
         </Tab.Navigator>
     );
 }

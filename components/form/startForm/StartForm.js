@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { Text, TouchableOpacity, TextInput, View, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { add, auth } from '../../../actions/user.action';
+import { addDataAccount, auth, changeRole } from '../../../actions/auth.action';
 import styles from './styleStartForm';
 import { User } from '../../../services/SocialNetworkServices';
 
@@ -18,9 +18,20 @@ const StartForm = () => {
 
     const dispatch = useDispatch();
 
+    const clearFildOfForm = () => {
+        setPassword('');
+        setUser_name('');
+        setEmail('');
+        setAnswer('');
+    }
+
     const changeVerify = (data) => {
-        dispatch(add(data))
+        console.log(data)
+        SecureStore.setItemAsync('authorization', data.authorization);
+        SecureStore.setItemAsync('userId', data['0'].id);
+        dispatch(addDataAccount(data['0']))
         dispatch(auth(true));
+        dispatch(changeRole('user'));
     }
 
     const validation = async () => {
@@ -44,13 +55,8 @@ const StartForm = () => {
                 setAnswer('Не верный пароль');
                 break;
             default:
-                await SecureStore.setItemAsync('authorization', result.authorization);
-                await SecureStore.setItemAsync('userId', result.dataValues.id);
-                changeVerify(result.dataValues)
-                setPassword('');
-                setUser_name('');
-                setEmail('');
-                setAnswer('');
+                changeVerify(result)
+                clearFildOfForm();
         }
     }
 

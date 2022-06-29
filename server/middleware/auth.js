@@ -10,7 +10,7 @@ const auth = (req, res, next) => {
   jwt.verify(req.headers.authorization, privateKey, (err, payload) => {
     if (!err) next()
     else {
-      res.status(200).json('jwt is not correct')
+      res.status(401).json('jwt is not correct')
     }
   })
 };

@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import * as SplashScreen from 'expo-splash-screen';
 
 import Auth from './components/Auth';

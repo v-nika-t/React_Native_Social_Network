@@ -25,6 +25,8 @@ class SocialNetworkServices {
             }
         }
 
+        console.log(this.getKeyAuthorization());
+
         requestObject.headers = isFile ? {
             ...requestObject.headers,
             'Accept': 'application/json',
@@ -40,9 +42,10 @@ class SocialNetworkServices {
         const data = await axios(requestObject)
             .then(function (response) {
                 return response.data;
-            }).catch(error => {
-                console.log(error);
-            })
+            }).catch(function (error) {
+                throw error.response.data;
+                console.log('catch', error.response.data)
+            });
         return await data;
     };
 
@@ -95,13 +98,16 @@ class SocialNetworkServices {
     signIn = (body) => this.requestOnServer('post', 'auth/signIn', '', body);
     signUp = (body) => this.requestOnServer('post', 'auth/signUp', '', body);
 
+    createChat = (body) => this.requestOnServer('post', 'creat', '', body);
+
 }
 
 const User = new SocialNetworkServices('user');
 const Post = new SocialNetworkServices('post');
 const Comment = new SocialNetworkServices('comment');
+const Chat = new SocialNetworkServices('chat');
 
-export { User, Post, Comment };
+export { User, Post, Comment, Chat };
 export default SocialNetworkServices;
 
 

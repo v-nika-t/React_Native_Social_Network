@@ -9,14 +9,13 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import styles from './styleAccountList';
 
 import SocialNetworkServices from '../../services/SocialNetworkServices';
-import { changeDataAccount } from '../../actions/user.action';
-
+import { editDataAccount } from '../../actions/auth.action';
 
 const Account = () => {
 
     const server = new SocialNetworkServices('user');
     const dispatch = useDispatch();
-    const state = useSelector(state => state.user);
+    const state = useSelector(state => state.auth.dataAccount);
 
     const { user_name, email, canAllSeeAccount } = state;
     const userId = state.id;
@@ -25,6 +24,10 @@ const Account = () => {
     const [result, setResult] = useState('');
     const [isChecked, setIsChecked] = useState(canAllSeeAccount);
     const initialValues = { user_name, email, canAllSeeAccount }
+
+    useFocusEffect(
+        useCallback(() => back, [])
+    )
 
     const Titles = () => {
         return (
@@ -42,9 +45,11 @@ const Account = () => {
         setEdit(false)
     }
 
-    useFocusEffect(
-        useCallback(() => back, [])
-    )
+    const changeDataAccount = async (values) => {
+        const result = await server.edit(userId, { ...values, canAllSeeAccount: isChecked });
+        result == 'done' ? dispatch(editDataAccount(values)) : null;  // Записать результат в State
+        setEdit(false);
+    }
 
     return (<>
 
@@ -64,11 +69,7 @@ const Account = () => {
             </View>
         </>) : (<Formik
             initialValues={initialValues}
-            onSubmit={async (values) => {
-                const result = await server.edit(userId, { ...values, canAllSeeAccount: isChecked });
-                result == 'done' ? dispatch(changeDataAccount(values)) : null;  // Записать результат в State
-                setEdit(false);
-            }}
+            onSubmit={changeDataAccount}
         >
             {(props) => {
                 return (

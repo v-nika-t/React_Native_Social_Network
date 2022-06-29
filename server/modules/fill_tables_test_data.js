@@ -7,6 +7,7 @@ function createRole() {
     DB.Role.create({ id: 2, name: 'admin' });
 }
 
+
 //createRole()
 
 const idOfUsers = [];
@@ -26,8 +27,8 @@ async function createUsers(count) {
     }
 }
 
-/* createUsers(4);
-console.log(idOfUsers); */
+//createUsers(5);
+//console.log(idOfUsers); 
 
 const idOfPosts = [];
 const nameImg = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg']; // существуюшие картиник в  assets
@@ -120,6 +121,13 @@ createStringInFriend('c7940b6c-ac94-44b6-9b6a-e145dc40a101', 'c62e77bf-a265-4420
  */
 
 
+/* DB.Chat.create({
+    idChat: uuidv4(),
+    firstUserId: '024a9006-a010-4ce2-817a-8c67d04cf70e',
+    secondUserId: '0b80e0cd-39a9-4569-a40f-0c10e26216e6',
+});
+ */
+
 //DB.Role.findAll({raw: true}).then(data => console.log(data))
 
 //DB.User.findAll({ raw: true }).then(data => console.log(data))
@@ -134,5 +142,40 @@ createStringInFriend('c7940b6c-ac94-44b6-9b6a-e145dc40a101', 'c62e77bf-a265-4420
 
 //DB.Friend.findAll({ raw: true }).then(data => console.log(data))
 
+/*
+const { Op } = require("sequelize");
+
+DB.Chat.findAll({
+    where: {
+        [Op.or]: [{
+            firstUserId: '024a9006-a010-4ce2-817a-8c67d04cf70e',
+            secondUserId: '0b80e0cd-39a9-4569-a40f-0c10e26216e6'
+        }, {
+            firstUserId: '0b80e0cd-39a9-4569-a40f-0c10e26216e6',
+            secondUserId: '024a9006-a010-4ce2-817a-8c67d04cf70e'
+        }]
+    }
+}).then(data => console.log('Hello', data))
 
 
+ */
+
+//DB.Chat.findAll({ raw: true }).then(data => console.log(data))
+//DB.Chat.destroy({ where: { idChat: '828603c1-f96e-47f4-aeea-7951d2488526' } });
+
+/* DB.Message.create({
+   id: uuidv4(),
+   message: "Test_3_test",
+   userId: '4ce9f17f-497c-4784-be18-31e474ae8f14',
+   chatId: '231219bd-5936-4769-b26b-eb252291273c',
+});
+
+DB.Message.create({
+   id: uuidv4(),
+   message: "Test_12345",
+   userId: '35273055-9c21-485b-bdfd-f2c5551f3e6d',
+   chatId: '231219bd-5936-4769-b26b-eb252291273c',
+}); */
+
+
+//DB.Message.findAll({ raw: true }).then(data => console.log(data))

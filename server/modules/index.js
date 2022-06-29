@@ -16,6 +16,8 @@ const Friend = require('./friends')(sequelize);
 const Role = require('./roles')(sequelize);
 const LikeofComment = require('./likes')(sequelize, 'likes_of_comments');
 const LikeofPost = require('./likes')(sequelize, 'likes_of_posts');
+const Chat = require('./chat/chat')(sequelize);
+const Message = require('./chat/message')(sequelize);
 
 
 Role.hasMany(User);
@@ -44,11 +46,23 @@ Comment.belongsToMany(User, { through: LikeofComment, as: 'Users_added_like_to_c
 User.belongsToMany(Post, { through: LikeofPost, as: 'Posts_with_user_likes', uniqueKey: 'id' });
 Post.belongsToMany(User, { through: LikeofPost, as: 'Users_added_like_to_post', uniqueKey: 'id' });
 
+// Таблица чатов
 
+User.hasMany(Chat);
+Chat.belongsTo(User, { as: 'firstUser', foreignKey: 'firstUserId' });
 
-sequelize.sync({ force: false }).then(() => {
+User.hasMany(Chat);
+Chat.belongsTo(User, { as: 'secondUser', foreignKey: 'secondUserId' });
+
+User.hasMany(Message, { as: 'User_Messages' });
+Message.belongsTo(User, { as: 'Owner_Messages', foreignKey: 'userId' });
+
+Chat.hasMany(Message, { as: 'Message' });
+Message.belongsTo(Chat, { as: 'Chat', foreignKey: 'chatId' });
+
+sequelize.sync({ force: false /* alter: true    */ }).then(() => {
     console.log('Tables have been created')
 }).catch(err => console.log(err));
 
 
-module.exports = { User, Post, Comment, Friend, Role, LikeofComment, LikeofPost }
+module.exports = { User, Post, Comment, Friend, Role, LikeofComment, LikeofPost, Chat, Message }
