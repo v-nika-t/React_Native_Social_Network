@@ -26,12 +26,12 @@ const StartForm = () => {
     }
 
     const changeVerify = (data) => {
-        console.log(data)
+        console.log(data['role.name']);
         SecureStore.setItemAsync('authorization', data.authorization);
-        SecureStore.setItemAsync('userId', data['0'].id);
-        dispatch(addDataAccount(data['0']))
+        SecureStore.setItemAsync('userId', signIn ? data.id : data['0'].id);
+        dispatch(addDataAccount(signIn ? data : data['0']))
         dispatch(auth(true));
-        dispatch(changeRole('user'));
+        dispatch(changeRole(signIn ? data['role.name'] : data[0].role.name));
     }
 
     const validation = async () => {

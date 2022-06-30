@@ -23,7 +23,7 @@ const Message = require('./chat/message')(sequelize);
 Role.hasMany(User);
 User.belongsTo(Role);
 
-User.hasMany(Post, { as: 'User_posts' });
+User.hasMany(Post, { as: 'User_posts', });
 Post.belongsTo(User, { as: 'Owner_posts', foreignKey: 'userId' });
 
 User.hasMany(Comment, { as: 'User_comments' });

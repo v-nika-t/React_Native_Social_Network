@@ -40,7 +40,7 @@ const FormActionWithUser = ({ navigation, route }) => {
         }
         service.add({ email, user_name, password, role: isAdmin ? 2 : 1 })
             .then((data) => {
-                dispatch(addUser(data, true))
+                dispatch(addUser(data[0], true))
                 setEmail('');
                 setUser_name('');
                 setPassword('')

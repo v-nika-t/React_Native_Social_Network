@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import Auth from './components/Auth';
 import store from './store/store';
 
-SplashScreen.preventAutoHideAsync();
+//SplashScreen.preventAutoHideAsync();
 
 function App() {
   return (

@@ -4,7 +4,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
-import { auth } from '../actions/user.action'
+import { auth } from '../actions/auth.action';
 import DrawerNavigator from './DrawerNavigator';
 import Account from '../components/account/Account';
 import UsertList from '../components/users/userList/UserList';
@@ -12,16 +12,13 @@ import ChatList from '../components/chatList/ChatList';
 
 const Tab = createBottomTabNavigator();
 
-
-
 function TabNavigator() {
     const dispatch = useDispatch();
-
+    1
     return (
         <Tab.Navigator
             initialRouteName="news"
             tabBarShowLabel='false'
-
         >
             <Tab.Screen
                 name="news"
@@ -73,6 +70,7 @@ function TabNavigator() {
                         <TouchableWithoutFeedback onPress={() => {
                             dispatch(auth(false));
                             SecureStore.setItemAsync('authorization', '');
+                            SecureStore.setItemAsync('userId', '');
                         }} >
                             <Entypo style={{ marginRight: 20 }} name="log-out" size={25} color="black" />
                         </TouchableWithoutFeedback>

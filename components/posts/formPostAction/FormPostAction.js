@@ -16,7 +16,7 @@ const FormPostAction = ({ navigation, route }) => {
 
     const server = Post;
     const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.auth.dataAccount);
     const post = useSelector(state => state.post);
     const userId = user.id;
 
@@ -34,9 +34,7 @@ const FormPostAction = ({ navigation, route }) => {
     const [result, setResult] = useState('');
     const [error, setError] = useState(false);
 
-    const pickImage = async () => { // Закгрузка картинок
-
-
+    const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: false,
@@ -46,7 +44,6 @@ const FormPostAction = ({ navigation, route }) => {
         });
 
         !result.cancelled ? setImage(result.uri) : null;
-
     };
 
     const addPost = (values, actions) => { //Добавить пост
@@ -75,11 +72,12 @@ const FormPostAction = ({ navigation, route }) => {
             })
     }
 
-    const editPost = (values) => {
-        image !== null ? values['uri'] = image : null
-        server.edit(route.params.id, values)
+    const editPost = async (values) => {
+        image !== null ? values['uri'] = image : null;
+        await server.edit(route.params.id, values)
             .then((data) => dispatch(edit(data)))
-            .then(navigation.goBack()).catch(e => setResult('Что-то пошло НЕ так: ' + e))
+            .catch(e => setResult('Что-то пошло НЕ так: ' + e));
+        await navigation.goBack();
     }
 
     const unFocus = (props) => useFocusEffect(

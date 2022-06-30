@@ -11,7 +11,7 @@ const PostList = ({ navigation, route }) => {
     const service = Post;
     const pathImage = '../../../assets/spinner.gif';
     const [loading, setLoading] = useState(true);
-    const { id } = useSelector(state => state.user);
+    const { id } = useSelector(state => state.auth.dataAccount);
     const post = useSelector(state => state.post);
     const dispatch = useDispatch();
 

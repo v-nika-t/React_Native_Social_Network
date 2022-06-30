@@ -3,15 +3,15 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { SimpleLineIcons, AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 
-import SocialNetworkServices from '../../../services/SocialNetworkServices';
+import { Comment } from '../../../services/SocialNetworkServices';
 import styles from './styleCommentList';
 
 const CommentsList = ({ route }) => {
-    const service = new SocialNetworkServices('comment');
+    const service = Comment;
     const pathImage = '../../../assets/spinner.gif';
     const postId = route.params.postId;
 
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.auth.dataAccount);
 
     const userId = user.id;
     const user_name = user.user_name;

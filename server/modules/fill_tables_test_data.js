@@ -51,13 +51,8 @@ async function createPostForSomeUsers(id_users = []) { //1 user 1 картинк
 }
 
 
-/* createPostForSomeUsers([
-  '542b56b5-04fd-4248-a528-a1473a0ddcf9',
-  '59d8669a-8ec1-40d6-b383-46233b2c584f',
-  'c62e77bf-a265-4420-a76d-df24a0a6d1fe',
-  'e34d7388-e352-484a-9b4a-1927ae8ed391',
-]) 
- */
+//createPostForSomeUsers(['f5fcbe58-5d67-4e65-ad56-70bfe9568c20', 'dc8c0539-a88a-4116-9c0f-5978a7a95f03', 'c3c94c39-b507-46d1-8421-0918c7395288', 'bcb53390-0220-4ede-ad06-1c93807419bf', 'a8b7bcdc-a383-43db-bfd2-80c4eeb83175', '083c447e-8856-4221-b81b-c67386a584a0']) 
+
 /*
 createPostForSomeUsers(idOfUsers)
 console.log(idOfPosts)
@@ -78,7 +73,7 @@ function createPostsForOneUser(id_users, count) {
 
 }
 
-//createPostsForOneUser('a1f9f054-f95d-49db-b9eb-27f75710ef7d',10)
+//createPostsForOneUser('083c447e-8856-4221-b81b-c67386a584a0',4)
 
 function createComment(postId, userId) {
     DB.Comment.create({
@@ -128,19 +123,7 @@ createStringInFriend('c7940b6c-ac94-44b6-9b6a-e145dc40a101', 'c62e77bf-a265-4420
 });
  */
 
-//DB.Role.findAll({raw: true}).then(data => console.log(data))
-
-//DB.User.findAll({ raw: true }).then(data => console.log(data))
-
-//DB.Post.findAll({ raw: true }).then(data => console.log(data))
-//DB.Post.findAll({ raw: true, where: { userId: 'a1f9f054-f95d-49db-b9eb-27f75710ef7d' } }).then(data => console.log(data))
-
-//DB.Comment.findAll({ raw: true }).then(data => console.log(data))
-
-//DB.LikeofComment.findAll({ raw: true }).then(data => console.log(data))
-//DB.LikeofPost.findAll({ raw: true }).then(data => console.log(data))
-
-//DB.Friend.findAll({ raw: true }).then(data => console.log(data))
+//DB.Chat.destroy({ where: { idChat: '828603c1-f96e-47f4-aeea-7951d2488526' } });
 
 /*
 const { Op } = require("sequelize");
@@ -157,11 +140,7 @@ DB.Chat.findAll({
     }
 }).then(data => console.log('Hello', data))
 
-
  */
-
-//DB.Chat.findAll({ raw: true }).then(data => console.log(data))
-//DB.Chat.destroy({ where: { idChat: '828603c1-f96e-47f4-aeea-7951d2488526' } });
 
 /* DB.Message.create({
    id: uuidv4(),
@@ -178,4 +157,46 @@ DB.Message.create({
 }); */
 
 
+
+
+//DB.Role.findAll({raw: true}).then(data => console.log(data))
+
+//DB.User.findAll({ raw: true }).then(data => console.log(data))
+
+//DB.Post.findAll({ raw: true }).then(data => console.log(data))
+//DB.Post.findAll({ raw: true, where: { userId: 'a1f9f054-f95d-49db-b9eb-27f75710ef7d' } }).then(data => console.log(data))
+
+//DB.Comment.findAll({ raw: true }).then(data => console.log(data))
+
+//DB.LikeofComment.findAll({ raw: true }).then(data => console.log(data))
+//DB.LikeofPost.findAll({ raw: true }).then(data => console.log(data))
+
+//DB.Friend.findAll({ raw: true }).then(data => console.log(data))
+
 //DB.Message.findAll({ raw: true }).then(data => console.log(data))
+
+//DB.Chat.findAll({ raw: true }).then(data => console.log(data))
+
+/* DB.Friend.create({
+    id: uuidv4(),
+    status: true,
+    userId: '083c447e-8856-4221-b81b-c67386a584a0',
+    friendId: '35273055-9c21-485b-bdfd-f2c5551f3e6d',
+ });  */
+
+/* DB.Friend.create({
+    id: uuidv4(),
+    status: true,
+    userId: '35273055-9c21-485b-bdfd-f2c5551f3e6d',
+    friendId: '083c447e-8856-4221-b81b-c67386a584a0',
+ });   */
+
+/*  DB.Friend.create({
+  id: uuidv4(),
+  userId: '083c447e-8856-4221-b81b-c67386a584a0',
+  friendId: '4ce9f17f-497c-4784-be18-31e474ae8f14',
+});   */
+
+
+DB.User.findAll({ raw: true }).then(data => console.log(data))
+DB.User.update({ roleId: 2, where: { id: '021aa121-c689-407d-8d3f-93aa814169bb' } })

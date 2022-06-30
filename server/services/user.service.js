@@ -72,9 +72,13 @@ class UserService extends CRUD_Service {
 
 
     getAllWhere = (where) => {
-        return this._db.User
-            .findAll({ where })
-            .then((data) => data);
+        return this._db.User.findAll({
+            where, raw: true,
+            include: {
+                model: this._db.Role,
+                attributes: ['name'],
+            }
+        }).then(data => data);
     };
 
     edit = async (req, res) => {
@@ -105,7 +109,7 @@ class UserService extends CRUD_Service {
         ).then(() => req.params.id).catch(err => err);
     }
 
-
+    1
 }
 
 

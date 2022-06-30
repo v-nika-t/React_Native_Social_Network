@@ -15,9 +15,9 @@ const Stack = createNativeStackNavigator();
 
 function StackNavigator() {
     const isSignIn = useSelector(state => state.auth.signIn);
-    //const isAdmin = useSelector(state => state.auth.isAdmin);
+    const isAdmin = useSelector(state => state.auth.isAdmin);
 
-    const isAdmin = false;
+    //const isAdmin = false;
 
     return (
         <NavigationContainer >

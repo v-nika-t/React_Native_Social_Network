@@ -44,7 +44,6 @@ class SocialNetworkServices {
                 return response.data;
             }).catch(function (error) {
                 throw error.response.data;
-                console.log('catch', error.response.data)
             });
         return await data;
     };

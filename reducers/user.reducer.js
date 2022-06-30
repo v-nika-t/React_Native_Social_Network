@@ -17,6 +17,10 @@ const reducer = (state = { allUsers: [], foundUsers: [] }, action) => {
                 allUsers: [
                     action.payload,
                     ...state.allUsers,
+                ],
+                foundUsers: [
+                    action.payload,
+                    ...state.foundUsers,
                 ]
             }
         case 'EDIT_USER':

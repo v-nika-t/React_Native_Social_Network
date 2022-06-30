@@ -4,7 +4,7 @@ import { TouchableWithoutFeedback } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
-import { auth } from '../actions/user.action'
+import { auth } from '../actions/auth.action';
 import Account from '../components/account/Account';
 import StartPageAllUsers from '../components/adminPanel/startPageAllUsers/StartPageAllUsers';
 import FormActionWithUser from '../components/adminPanel/formActionWithUser/FormActionWithUser';
@@ -56,6 +56,7 @@ function TabNavigator() {
                         <TouchableWithoutFeedback onPress={() => {
                             dispatch(auth(false));
                             SecureStore.setItemAsync('authorization', '');
+                            SecureStore.setItemAsync('userId', '');
                         }} >
                             <Entypo style={{ marginRight: 20 }} name="log-out" size={25} color="black" />
                         </TouchableWithoutFeedback>

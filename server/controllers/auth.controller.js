@@ -28,7 +28,6 @@ class AuthController {
     signIn = async (req, res) => {
         const { email, password } = req.body;
         const user = await this.db.getAllWhere({ email });
-
         if (user.length !== 0) {
             bcrypt.compare(password, user[0].password, (err, result) => {
                 if (result) {

@@ -16,7 +16,8 @@ const UsertList = () => {
 
     const [filter, setFilter] = useState('friends');
     const [search, setSearch] = useState('');
-    const user = useSelector(state => state.user);
+
+    const user = useSelector(state => state.auth.dataAccount);
 
     const activColor = 'rgba(7, 186, 133, 1)';
     const notActiveColor = 'rgba(7, 186, 133, 0.5)';
