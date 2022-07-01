@@ -109,7 +109,7 @@ class UserService extends CRUD_Service {
         ).then(() => req.params.id).catch(err => err);
     }
 
-    1
+
 }
 
 

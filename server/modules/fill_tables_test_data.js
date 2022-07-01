@@ -197,6 +197,5 @@ DB.Message.create({
   friendId: '4ce9f17f-497c-4784-be18-31e474ae8f14',
 });   */
 
-
-DB.User.findAll({ raw: true }).then(data => console.log(data))
-DB.User.update({ roleId: 2, where: { id: '021aa121-c689-407d-8d3f-93aa814169bb' } })
+DB.Post.findAll({ raw: true }).then(data => console.log(data))
+//DB.User.update({ roleId: 2 }, { where: { id: '021aa121-c689-407d-8d3f-93aa814169bb' } })

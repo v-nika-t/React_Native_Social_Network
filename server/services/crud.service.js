@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const DB = require('../modules/index');
 
 class CRUD_Service {
 

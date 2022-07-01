@@ -26,7 +26,6 @@ const StartForm = () => {
     }
 
     const changeVerify = (data) => {
-        console.log(data['role.name']);
         SecureStore.setItemAsync('authorization', data.authorization);
         SecureStore.setItemAsync('userId', signIn ? data.id : data['0'].id);
         dispatch(addDataAccount(signIn ? data : data['0']))

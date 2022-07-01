@@ -1,7 +1,4 @@
 const DB_Friend = require('../services/friend.service');
-DB_Friend.getAll().then(data => console.log(data));
-//DB_Friend.delete({  userId: 1, friendId: 7 }).then(data => console.log(data)); 
-//DB_Friend.add({ userId: 1, friendId: 3 })
 
 class FriendController {
 

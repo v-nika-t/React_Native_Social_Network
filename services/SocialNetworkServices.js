@@ -25,15 +25,11 @@ class SocialNetworkServices {
             }
         }
 
-        console.log(this.getKeyAuthorization());
-
         requestObject.headers = isFile ? {
             ...requestObject.headers,
             'Accept': 'application/json',
             'Content-Type': 'multipart/form-data'
         } : requestObject.headers;
-
-        console.log(this.getKeyAuthorization());
 
         body ? requestObject.data = body : null;
         id ? requestObject.url += `/${id}` : null;
