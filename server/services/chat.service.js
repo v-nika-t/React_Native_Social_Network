@@ -28,6 +28,8 @@ class ChatService {
             secondUserId,
         })
     }
+
+
 }
 
 module.exports = new ChatService();

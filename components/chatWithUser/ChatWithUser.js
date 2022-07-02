@@ -34,6 +34,8 @@ const ChatWithUser = ({ route }) => {
         socket.on('ONLINE', (firstUserId) => {
             console.log("firstUserId: ", firstUserId)
         })
+
+        /* return (socket.on()) */
     }, []);
     const sentMessage = () => {
         socket.emit('SENT_MESSAGE', {
@@ -45,10 +47,9 @@ const ChatWithUser = ({ route }) => {
         });
         setText('');
     }
-
     const content = messages ? messages.map(item => {
         return (
-            <View >
+            <View key={item.id} >
                 <Text style={{ fontSize: 20 }}>
                     <AntDesign name="user" size={20} color="black" />
                     <Text style={{ fontWeight: 'bold' }}> {item['Owner_Messages.user_name']} </Text>

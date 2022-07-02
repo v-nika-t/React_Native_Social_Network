@@ -66,7 +66,6 @@ const UsertList = () => {
             .then(data => data.filter(item => item.user_name.search(reg) !== -1))
             .then(data => setSearchedUsers(data)) : setSearchedUsers(result)
     }
-
     const spinner = loading ? <Image source={require(pathImage)} /> : null;
     const content = data ? filterUsers(data).map(item => {
 

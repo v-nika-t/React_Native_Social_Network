@@ -54,8 +54,9 @@ const StartForm = () => {
                 setAnswer('Не верный пароль');
                 break;
             default:
-                changeVerify(result)
                 clearFildOfForm();
+                changeVerify(result)
+
         }
     }
 

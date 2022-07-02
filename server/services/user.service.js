@@ -1,39 +1,41 @@
 const { v4: uuidv4 } = require('uuid');
-const { User } = require('../modules');
-const CRUD_Service = require('./crud.service');
+const DB = require('../modules/index');
 const bcrypt = require('bcrypt');
 
-class UserService extends CRUD_Service {
-    tableFields = ['name', 'mail', 'password'];
+class UserService {
+
+    DB_FRIEND = DB.Friend;
+    DB_USER = DB.User;
+    DB_ROLE = DB.Role;
 
     getAll = async (req) => {
 
         if (req.query.id) {
-            const requestInFriend = await this._db.User.findAll({
+            const requestInFriend = await this.DB_USER.findAll({
                 attributes: [],
                 where: { id: req.query.id },
                 include: {
-                    model: User,
+                    model: this.DB_USER,
                     as: 'subscriber',
                     attributes: ['user_name', 'id'],
                 },
             });
 
-            const friend = await this._db.Friend.findAll({
+            const friend = await this.DB_FRIEND.findAll({
                 attributes: ['status'],
                 where: { userId: req.query.id, status: true },
                 include: [{
-                    model: this._db.User,
+                    model: this.DB_USER,
                     attributes: ['user_name', 'id'],
                 }
                 ]
             });
 
-            const subscriber = await this._db.Friend.findAll({
+            const subscriber = await this.DB_FRIEND.findAll({
                 attributes: ['status'],
                 where: { userId: req.query.id, status: false },
                 include: [{
-                    model: this._db.User,
+                    model: this.DB_USER,
                     attributes: ['user_name', 'id'],
                 }
                 ]
@@ -45,23 +47,25 @@ class UserService extends CRUD_Service {
                 subscriber
             }
         } else {
-            return this._db.User.findAll({
+            return this.DB_USER.findAll({
                 include: {
-                    model: this._db.Role,
+                    model: this.DB_ROLE,
                     attributes: ['name'],
 
                 }
             }).then(data => data);
         }
 
+
+
     };
 
     getOne = (req, res) => {
-        return this._db.User
+        return this.DB_USER
             .findAll({
                 where: { id: req.params.id }, raw: false,
                 include: {
-                    model: this._db.Role,
+                    model: this.DB_ROLE,
                     attributes: ['name'],
 
                 }
@@ -72,10 +76,10 @@ class UserService extends CRUD_Service {
 
 
     getAllWhere = (where) => {
-        return this._db.User.findAll({
+        return this.DB_USER.findAll({
             where, raw: true,
             include: {
-                model: this._db.Role,
+                model: this.DB_ROLE,
                 attributes: ['name'],
             }
         }).then(data => data);
@@ -86,16 +90,16 @@ class UserService extends CRUD_Service {
             const hash = await bcrypt.hash(req.body.password, 10);
             req.body.password = hash
         }
-        return this._db.User.update({ ...req.body }, { where: { id: req.params.id } }).then(() => 'done')
+        return this.DB_USER.update({ ...req.body }, { where: { id: req.params.id } }).then(() => 'done')
     };
 
     add = async (req, res) => {
         const hash = await bcrypt.hash(req.body.password, 10);
-        const user = await this._db.User.create({ ...req.body, id: uuidv4(), password: hash });
-        return this._db.User.findAll({
+        const user = await this.DB_USER.create({ ...req.body, id: uuidv4(), password: hash });
+        return this.DB_USER.findAll({
             where: { id: user.id }, raw: false,
             include: {
-                model: this._db.Role,
+                model: this.DB_ROLE,
                 attributes: ['name'],
 
             }
@@ -105,7 +109,7 @@ class UserService extends CRUD_Service {
     }
 
     delete = (req) => {
-        return this._db.User.destroy({ where: { id: req.params.id } }
+        return this.DB_USER.destroy({ where: { id: req.params.id } }
         ).then(() => req.params.id).catch(err => err);
     }
 

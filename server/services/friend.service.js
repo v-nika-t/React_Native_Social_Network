@@ -1,26 +1,23 @@
 const { v4: uuidv4 } = require('uuid');
-const { Friend } = require('../modules');
-const CRUD_Service = require('./crud.service');
+const DB = require('../modules/index');
 
-class FriendService extends CRUD_Service {
+class FriendService {
+    DB_FRIEND = DB.Friend;
 
     edit = async (body, where) => {
-        return await this._db.Friend.update({ ...body }, { where: where }).then(() => 'done').catch(err => err)
+        return await this.DB_FRIEND.update({ ...body }, { where: where }).then(() => 'done').catch(err => err)
     };
 
-
     add = async (body) => {
-        return this._db.Friend.create({ id: uuidv4(), ...body }).then(data => data).catch(e => console.log(e));
-
+        return this.DB_FRIEND.create({ id: uuidv4(), ...body }).then(data => data).catch(e => console.log(e));
     }
 
     delete = (where) => {
-        return this._db.Friend.destroy({ where: where }
+        return this.DB_FRIEND.destroy({ where: where }
         ).then(() => 'done').catch(err => err);
     }
-
     getAll = (req, res) => {
-        return this._db.Friend.findAll();
+        return this.DB_FRIEND.findAll();
     }
 
 }

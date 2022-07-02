@@ -1,24 +1,26 @@
 const { v4: uuidv4 } = require('uuid');
-const CRUD_Service = require('./crud.service');
-
-class CommentService extends CRUD_Service {
+const DB = require('../modules/index');
+1
+class CommentService {
+    DB_СOMMENT = DB.Comment;
+    DB_USER = DB.User;
 
     getAll = async (req) => {
         const params = {
             attributes: { exclude: ['userId'] },
             order: [['date', 'DESC']],
             include: [{
-                model: this._db.User,
+                model: this.DB_USER,
                 as: 'Owner_comments',
                 attributes: ['user_name', 'id'],
             },
-            { model: this._db.User, as: 'Users_added_like_to_comment', attributes: ['user_name'] }
+            { model: this.DB_USER, as: 'Users_added_like_to_comment', attributes: ['user_name'] }
             ],
         }
 
         req.query.id ? params['where'] = { postId: req.query.id } : null;
 
-        const comments = await this._db.Comment.findAll(params).then(comments => {
+        const comments = await this.DB_СOMMENT.findAll(params).then(comments => {
             return comments.map(item => {
                 return ({
                     id: item.id,
@@ -34,11 +36,11 @@ class CommentService extends CRUD_Service {
         return await comments;
     };
 
-    add = async (req, res) => {//  tableFields  == НЕ надо
-        const comment = await this._db.Comment.create({ id: uuidv4(), ...req.body, date: new Date() });
+    add = async (req, res) => {
+        const comment = await this.DB_СOMMENT.create({ id: uuidv4(), ...req.body, date: new Date() });
         const user = await comment.getOwner_comments();
 
-        return await ({
+        return ({
             id: comment.id,
             description: comment.description,
             date: (new Date(comment.date).toLocaleString('ru', { day: 'numeric', month: 'long', year: "2-digit" })),
@@ -49,13 +51,13 @@ class CommentService extends CRUD_Service {
     };
 
     delete = (req) => {
-        return this._db.Comment.destroy({ where: { id: req.params.id } }
+        return this.DB_СOMMENT.destroy({ where: { id: req.params.id } }
         ).then(async () => req.params.id).catch(err => err);
     }
 
     edit = (req, res) => {
         const comment = { ...req.body };
-        return this._db.Comment.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
+        return this.DB_СOMMENTt.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
 
     }
 }

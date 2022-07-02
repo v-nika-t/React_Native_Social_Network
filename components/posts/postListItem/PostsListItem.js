@@ -17,6 +17,7 @@ const PostListItem = (props) => {
 
     const service = Post;
     const pathImg = service.URL_WITH_PORT + '/' + img;
+
     const user = useSelector(state => state.auth.dataAccount);
 
 
@@ -70,6 +71,7 @@ const PostListItem = (props) => {
                     source={{ uri: pathImg }}
                     style={{ width: 400, height: 400 }}
                 />
+
                 <View>
                     <Text style={styles.text} >{title}</Text>
                     <Text style={styles.text}>{description}</Text>

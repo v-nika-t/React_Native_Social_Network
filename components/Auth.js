@@ -9,14 +9,13 @@ import StackNavigator from '../navigation/StackNavigator';
 import { addDataAccount, auth, changeRole } from '../actions/auth.action';
 import { User } from '../services/SocialNetworkServices';
 
-/* SecureStore.setItemAsync('userId', '');
-SecureStore.setItemAsync('authorization', '')
- */
+
 function Auth() {
-    const image = { uri: "https://reactjs.org/logo-og.png" };
     const dispatch = useDispatch();
     const services = User;
     const [appIsReady, setAppIsReady] = useState(false);
+    /* SecureStore.setItemAsync('userId', '');
+    SecureStore.setItemAsync('authorization', '') */
 
     useEffect(() => {
         (async function () {
@@ -43,7 +42,6 @@ function Auth() {
         }())
 
     }, [appIsReady])
-
 
     return (<>
         {appIsReady ? (

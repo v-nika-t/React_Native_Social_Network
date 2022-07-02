@@ -18,6 +18,7 @@ const SearchPanelofUsers = (props) => {
 
     const [search, setSearch] = useState('');
     const { allUsers, foundUsers } = useSelector(state => state.user);
+    const { id } = useSelector(state => state.auth.dataAccount);
     const dispatch = useDispatch();
 
     const onChangeSearch = (value) => {
@@ -26,11 +27,11 @@ const SearchPanelofUsers = (props) => {
 
         const reg = new RegExp("^" + value, 'i');
 
-        const foundInAllUsers = allUsers.filter(item => item.user_name.search(reg) !== -1)
-        const foundInFoundUsers = foundUsers.filter(item => item.user_name.search(reg) !== -1)
+        const foundInAllUsers = allUsers.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
+        const foundInFoundUsers = foundUsers.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
 
         if (foundInAllUsers.length == 0 || foundInFoundUsers.length !== 0) {
-            service.getAll().then(data => data.filter(item => item.user_name.search(reg) !== -1)
+            service.getAll().then(data => data.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
             ).then(data => dispatch(addFoundUsers(data)));
             setLoading(false)
             return;

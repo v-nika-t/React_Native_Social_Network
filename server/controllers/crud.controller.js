@@ -1,4 +1,3 @@
-
 class CRUDController {
 
     constructor(nameDB) {

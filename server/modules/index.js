@@ -23,7 +23,7 @@ const Message = require('./chat/message')(sequelize);
 Role.hasMany(User);
 User.belongsTo(Role);
 
-User.hasMany(Post, { as: 'User_posts', });
+User.hasMany(Post, { as: 'User_posts', onDelete: 'cascade' });
 Post.belongsTo(User, { as: 'Owner_posts', foreignKey: 'userId' });
 
 User.hasMany(Comment, { as: 'User_comments' });
@@ -49,18 +49,21 @@ Post.belongsToMany(User, { through: LikeofPost, as: 'Users_added_like_to_post', 
 // Таблица чатов
 
 User.hasMany(Chat);
-Chat.belongsTo(User, { as: 'firstUser', foreignKey: 'firstUserId' });
+Chat.belongsTo(User, {
+    as: 'firstUser', foreignKey: 'firstUserId',
+    onDelete: 'cascade'
+});
 
 User.hasMany(Chat);
-Chat.belongsTo(User, { as: 'secondUser', foreignKey: 'secondUserId' });
+Chat.belongsTo(User, { as: 'secondUser', foreignKey: 'secondUserId', onDelete: 'cascade' });
 
 User.hasMany(Message, { as: 'User_Messages' });
-Message.belongsTo(User, { as: 'Owner_Messages', foreignKey: 'userId' });
+Message.belongsTo(User, { as: 'Owner_Messages', foreignKey: 'userId', onDelete: 'cascade' });
 
 Chat.hasMany(Message, { as: 'Message' });
 Message.belongsTo(Chat, { as: 'Chat', foreignKey: 'chatId' });
 
-sequelize.sync({ force: false /* alter: true    */ }).then(() => {
+sequelize.sync({ force: false  /* force: false    */ }).then(() => {
     console.log('Tables have been created')
 }).catch(err => console.log(err));
 

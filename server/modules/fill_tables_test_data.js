@@ -51,12 +51,10 @@ async function createPostForSomeUsers(id_users = []) { //1 user 1 картинк
 }
 
 
-//createPostForSomeUsers(['f5fcbe58-5d67-4e65-ad56-70bfe9568c20', 'dc8c0539-a88a-4116-9c0f-5978a7a95f03', 'c3c94c39-b507-46d1-8421-0918c7395288', 'bcb53390-0220-4ede-ad06-1c93807419bf', 'a8b7bcdc-a383-43db-bfd2-80c4eeb83175', '083c447e-8856-4221-b81b-c67386a584a0']) 
-
-/*
-createPostForSomeUsers(idOfUsers)
-console.log(idOfPosts)
-*/
+/* createPostForSomeUsers(
+    ['59b9ebba-877e-4997-959c-6292fa3538e4',
+     '89f7b0e6-0e14-4940-87b0-296c69cba11d', 
+     '91c6bf66-e810-4c5e-82c4-aa775731073f', 'a5285baa-c952-455a-bd8f-794e9094cf1f', 'b1268909-640f-4eb5-9558-bf2a7d7d590a' ])   */
 
 
 function createPostsForOneUser(id_users, count) {
@@ -85,9 +83,9 @@ function createComment(postId, userId) {
     });
 }
 
-/* createComment('5538eac8-f9ca-43af-b9fb-1657cdd9d705', 'e34d7388-e352-484a-9b4a-1927ae8ed391');
-createComment('5538eac8-f9ca-43af-b9fb-1657cdd9d705', 'c62e77bf-a265-4420-a76d-df24a0a6d1fe');
-createComment('5538eac8-f9ca-43af-b9fb-1657cdd9d705', '59d8669a-8ec1-40d6-b383-46233b2c584f');
+/*  createComment('01fab976-b94b-4393-a615-e8597517b94b', '59b9ebba-877e-4997-959c-6292fa3538e4');
+createComment('01fab976-b94b-4393-a615-e8597517b94b', '59b9ebba-877e-4997-959c-6292fa3538e4');  */
+/* createComment('5538eac8-f9ca-43af-b9fb-1657cdd9d705', '59d8669a-8ec1-40d6-b383-46233b2c584f');
  */
 
 function createLikeofComment(commentId, userId) {
@@ -197,5 +195,35 @@ DB.Message.create({
   friendId: '4ce9f17f-497c-4784-be18-31e474ae8f14',
 });   */
 
-DB.Post.findAll({ raw: true }).then(data => console.log(data))
-//DB.User.update({ roleId: 2 }, { where: { id: '021aa121-c689-407d-8d3f-93aa814169bb' } })
+//DB.User.findAll({ raw: true }).then(data => console.log(data))
+//DB.User.update({ roleId: 2 }, { where: { id: '45ec13d5-d15f-404e-a4ef-89e7e5fcc3de' } })
+
+
+
+/* async function createUsers(count) {
+    while (count !== 0) {
+        let id = uuidv4();
+        idOfUsers.push(id);
+
+        const password = await bcrypt.hash('12345', 10);
+        const result = await DB.User.create({
+            id,
+            user_name: count + '_test',
+            email: count + '_test@test.ru',
+            password
+        });
+        count--;
+    }
+}
+
+createUsers(2); */
+//DB.User.findAll({ raw: true }).then(data => console.log(data))
+//DB.Post.findAll({ raw: true }).then(data => console.log(data))
+//DB.Comment.findAll({ raw: true }).then(data => console.log(data))
+
+
+
+//DB.User.destroy({ where: { id: '04803a49-bb36-42f4-9c57-b464bd03615b' } })
+
+//'47dd65c2-745b-414c-9f26-56e8499667b0'  - idPost
+//59b9ebba-877e-4997-959c-6292fa3538e4

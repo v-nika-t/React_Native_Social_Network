@@ -68,7 +68,7 @@ const FormPostAction = ({ navigation, route }) => {
                 setError(false);
             }).catch(e => {
                 setError(true);
-                setResult('Что-то пошло НЕ так: ' + e)
+                setResult('Что-то пошло не так. Попробуйте еще раз или позже')
             })
     }
 
@@ -100,8 +100,8 @@ const FormPostAction = ({ navigation, route }) => {
                     unFocus(props);
                     return (
                         <>
-                            <Text style={[styles.text, { color: error ? 'red' : 'green' }]}>{result}</Text>
                             <View style={styles.container}>
+                                <Text style={[styles.text, { color: error ? 'red' : 'green' }]}>{result}</Text>
                                 <TextInput
                                     style={styles.input}
                                     value={props.values.title}
