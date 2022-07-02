@@ -227,3 +227,18 @@ createUsers(2); */
 
 //'47dd65c2-745b-414c-9f26-56e8499667b0'  - idPost
 //59b9ebba-877e-4997-959c-6292fa3538e4
+
+
+
+/* (async function () {
+    let id = uuidv4();
+    idOfUsers.push(id);
+    DB.User.create({
+        id,
+        user_name: 'admin',
+        email: 'admin',
+        password: await bcrypt.hash('admin', 10),
+        roleId: 2
+
+    })
+}());  */

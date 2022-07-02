@@ -59,7 +59,7 @@ function StackNavigator() {
                     </>
                 ) : (<>
                     <Stack.Screen
-                        name="allUsers"
+                        name="users"
                         component={AdminTabNavigator}
                         options={{ headerShown: false }}
                     />

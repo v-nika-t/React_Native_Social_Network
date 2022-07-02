@@ -5,7 +5,7 @@ const DB = require('../modules/index');
 
 class PostService {
 
-    DB_СOMMENT = DB.Comment;
+    DB_COMMENT = DB.Comment;
     DB_POST = DB.Post;
     DB_USER = DB.User;
 

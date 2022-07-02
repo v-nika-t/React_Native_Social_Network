@@ -74,7 +74,6 @@ const FormActionWithUser = ({ navigation, route }) => {
             }));
             navigation.goBack()
         } else {
-            console.log(result)
             setResult('Что-то пошло не так');
             setError(true);
         }
@@ -88,8 +87,6 @@ const FormActionWithUser = ({ navigation, route }) => {
                 setPassword('')
             };
         }, []))
-
-
 
     return (
         <>

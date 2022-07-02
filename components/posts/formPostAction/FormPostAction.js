@@ -46,7 +46,7 @@ const FormPostAction = ({ navigation, route }) => {
         !result.cancelled ? setImage(result.uri) : null;
     };
 
-    const addPost = (values, actions) => { //Добавить пост
+    const addPost = (values, actions) => {
         if (!(values.title && image && values.description)) {
             setResult('Обязательные поля не заполнены');
             setError(true);

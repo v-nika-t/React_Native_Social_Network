@@ -10,7 +10,6 @@ const reducer = (state = [], action) => {
             ]
         case 'EDIT_POST':
             return state.map(item => {
-                console.log(item);
                 return item.id !== action.payload.id ? item : ({
                     ...item,
                     ...action.payload,
