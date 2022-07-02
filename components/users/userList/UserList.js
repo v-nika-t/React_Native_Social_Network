@@ -199,7 +199,7 @@ const UsertList = () => {
 
     return (
         <>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
                 <TouchableWithoutFeedback onPress={() => changeFilter('friends')}>
                     <FontAwesome style={styles.item} name="users" size={40} color={filter === 'friends' ? activColor : notActiveColor} />
                 </TouchableWithoutFeedback>

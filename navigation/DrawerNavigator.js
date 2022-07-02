@@ -8,28 +8,37 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
     return (
         <Drawer.Navigator initialRouteName="Home"  >
-            <Drawer.Screen
-                name="allPost"
-                component={PostList}
-                options={{
-                    title: 'Новости',
-                }}
-            />
-            <Drawer.Screen
-                name="ownPost"
-                component={PostList}
-                options={{
-                    title: 'Твои записи'
-                }}
-            />
-            <Drawer.Screen
-                name="addPost"
-                component={FormPostAction}
-                options={{
-                    title: 'Добавить'
-                }}
-            />
-
+            <Drawer.Group screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#3CB371',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}>
+                <Drawer.Screen
+                    name="allPost"
+                    component={PostList}
+                    options={{
+                        title: 'Новости',
+                    }}
+                />
+                <Drawer.Screen
+                    name="ownPost"
+                    component={PostList}
+                    options={{
+                        title: 'Твои записи'
+                    }}
+                />
+                <Drawer.Screen
+                    name="addPost"
+                    component={FormPostAction}
+                    options={{
+                        title: 'Добавить'
+                    }}
+                />
+            </Drawer.Group>
         </Drawer.Navigator>
     )
 }

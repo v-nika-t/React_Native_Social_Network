@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 import * as SecureStore from 'expo-secure-store';
-
+1
 class SocialNetworkServices {
     _IP = '192.168.1.225';
     _PORT = `8000`;

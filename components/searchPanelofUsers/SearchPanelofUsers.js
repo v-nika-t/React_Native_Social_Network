@@ -7,47 +7,44 @@ import { TextInput, Image, View, Text, TouchableWithoutFeedback, ScrollView } fr
 
 import styles from './styleSearchPanelofUsers';
 import { User } from '../../services/SocialNetworkServices';
-import { addFoundUsers } from '../../actions/user.action';
+import { addFoundUsers, isSpinner } from '../../actions/user.action';
 
 const SearchPanelofUsers = (props) => {
     const service = User;
     const pathImage = '../../assets/spinner.gif';
     const [loading, setLoading] = useState(false);
 
-    const spinner = loading ? <Image source={require(pathImage)} /> : null;
+    //const spinner = loading ? 
 
     const [search, setSearch] = useState('');
-    const { allUsers, foundUsers } = useSelector(state => state.user);
+    const { allUsers, foundUsers, spinner } = useSelector(state => state.user);
     const { id } = useSelector(state => state.auth.dataAccount);
     const dispatch = useDispatch();
 
     const onChangeSearch = (value) => {
         setSearch(value);
-        setLoading(true);
-
+        dispatch(isSpinner(true))
         const reg = new RegExp("^" + value, 'i');
-
-        const foundInAllUsers = allUsers.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
+        const foundInAllUsers = allUsers.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)));
         const foundInFoundUsers = foundUsers.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
 
-        if (foundInAllUsers.length == 0 || foundInFoundUsers.length !== 0) {
-            service.getAll().then(data => data.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id)))
-            ).then(data => dispatch(addFoundUsers(data)));
-            setLoading(false)
-            return;
+        if (foundInAllUsers.length == 0 && foundInFoundUsers.length == 0) {
+            service.getAll().then(data => data.filter(item => ((item.user_name.search(reg) !== -1) && (item.id !== id))
+            )).then(data => dispatch(addFoundUsers(data)
+            )).then(dispatch(isSpinner(false)))
+        } else {
+            foundInAllUsers.length !== 0 ? dispatch(addFoundUsers(foundInAllUsers)) : dispatch(addFoundUsers(foundInFoundUsers));
+            dispatch(isSpinner(false))
         }
 
-        foundInAllUsers.length !== 0 ? dispatch(addFoundUsers(foundInAllUsers)) : dispatch(addFoundUsers(foundInFoundUsers))
-        setLoading(false);
     }
 
     return (
-        <View>
+        <View style={{ marginTop: 10 }}>
             <TextInput style={styles.input} placeholder='Поиск' value={search} onChangeText={onChangeSearch} />
             <ScrollView>
-                {props.children}
                 <View style={styles.container}>
-                    {spinner}
+                    {spinner ? <Image source={require(pathImage)} /> : null}
                 </View>
             </ScrollView>
 

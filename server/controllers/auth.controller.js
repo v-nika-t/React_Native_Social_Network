@@ -19,7 +19,7 @@ class AuthController {
                 res.status(200).json({ ...data, authorization: jwt.sign({ id: data.id }, privateKey) })
             });
         } else {
-            res.status(200).json('There is user');
+            res.status(401).json('There is user');
         }
     };
 
@@ -31,11 +31,11 @@ class AuthController {
                 if (result) {
                     res.status(200).json({ ...user[0], authorization: jwt.sign({ id: result.id }, privateKey) })
                 } else {
-                    res.status(200).json('Invalid password');
+                    res.status(401).json('Invalid password');
                 }
             })
         } else {
-            res.status(200).json('There is not user');
+            res.status(401).json('There is not user');
         }
     }
 

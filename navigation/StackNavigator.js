@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 import TabNavigator from './TabNavigator';
@@ -13,66 +13,94 @@ import ChatWithUser from '../components/chatWithUser/ChatWithUser';
 
 const Stack = createNativeStackNavigator();
 
+
+
 function StackNavigator() {
     const isSignIn = useSelector(state => state.auth.signIn);
     const isAdmin = useSelector(state => state.auth.isAdmin);
 
-    //const isAdmin = false;
+    const MyTheme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            primary: '#3CB371',
+        },
+    };
 
     return (
-        <NavigationContainer >
-            <Stack.Navigator initialRouteName="startPage" id="StackNavigator">
+        <NavigationContainer theme={MyTheme} >
 
-                {!isSignIn ? (<Stack.Screen
-                    name="startPage"
-                    component={StartForm}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                ) : (!isAdmin ? (
-                    <>
+
+            <Stack.Navigator initialRouteName="startPage" id="StackNavigator" >
+                <Stack.Group screenOptions={{
+                    headerStyle: {
+                        backgroundColor: '#3CB371',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}>
+                    {!isSignIn ? (<Stack.Screen
+                        name="startPage"
+                        component={StartForm}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    ) : (!isAdmin ? (
+                        <>
+                            <Stack.Screen
+                                name="account"
+                                component={TabNavigator}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="comments"
+                                component={CommentsList}
+                                options={{ title: "Комментарии" }}
+                            />
+                            <Stack.Screen
+                                name="editPost"
+                                component={FormPostAction}
+                                options={{
+                                    title: 'Изменить'
+                                }}
+                            />
+                            <Stack.Screen
+                                name="chatWithUser"
+                                component={ChatWithUser}
+                                options={{
+                                    title: 'Чат',
+                                    /*  headerStyle: {
+                                         backgroundColor: '#3CB371',
+                                     },
+                                     headerTintColor: '#fff',
+                                     headerTitleStyle: {
+                                         fontWeight: 'bold',
+                                     }, */
+                                }}
+                            />
+                        </>
+                    ) : (<>
                         <Stack.Screen
-                            name="account"
-                            component={TabNavigator}
+                            name="users"
+                            component={AdminTabNavigator}
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen
-                            name="comments"
-                            component={CommentsList}
-                            options={{ title: "Комментарии" }}
-                        />
-                        <Stack.Screen
-                            name="editPost"
-                            component={FormPostAction}
+                            name="editUser"
+                            component={FormActionWithUser}
                             options={{
-                                title: 'Изменить'
+                                title: 'Изменить',
+                                backgroundColor: '#3CB371'
                             }}
                         />
-                        <Stack.Screen
-                            name="chatWithUser"
-                            component={ChatWithUser}
-                            options={{
-                                title: 'Чат'
-                            }}
-                        />
-                    </>
-                ) : (<>
-                    <Stack.Screen
-                        name="users"
-                        component={AdminTabNavigator}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="editUser"
-                        component={FormActionWithUser}
-                        options={{
-                            title: 'Изменить'
-                        }}
-                    />
-                </>))}
+                    </>))}
+                </Stack.Group>
             </Stack.Navigator>
-        </NavigationContainer>
+
+        </NavigationContainer >
     )
 }
 

@@ -6,9 +6,8 @@ import { View, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import SearchPanelofUsers from '../searchPanelofUsers/SearchPanelofUsers';
 import styles from './styleChatList';
 
-
 const ChatList = ({ navigation }) => {
-    const { foundUsers } = useSelector(state => state.user);
+    const { foundUsers, spinner } = useSelector(state => state.user);
     const content = foundUsers ? foundUsers.map(item => {
 
         const user_name = item.user ? item.user.user_name : item.user_name;
@@ -26,13 +25,20 @@ const ChatList = ({ navigation }) => {
         )
     }) : ''
 
-    return (
-        <>
-            <SearchPanelofUsers >
-                {content}
-            </ SearchPanelofUsers >
 
-        </>
+    return (
+        <View >
+            <SearchPanelofUsers />
+            <ScrollView>
+                {spinner ? null : content}
+            </ScrollView>
+        </View>
     )
+
+
+
+
+
+
 }
 export default ChatList;

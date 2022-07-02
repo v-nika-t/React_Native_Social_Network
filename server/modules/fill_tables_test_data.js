@@ -217,13 +217,13 @@ DB.Message.create({
 }
 
 createUsers(2); */
-//DB.User.findAll({ raw: true }).then(data => console.log(data))
+DB.User.findAll({ raw: true }).then(data => console.log(data))
 //DB.Post.findAll({ raw: true }).then(data => console.log(data))
 //DB.Comment.findAll({ raw: true }).then(data => console.log(data))
 
 
 
-//DB.User.destroy({ where: { id: '04803a49-bb36-42f4-9c57-b464bd03615b' } })
+//DB.User.destroy({ where: { id: "dc445f7b-9563-480c-bc3b-2316e0159452" } })
 
 //'47dd65c2-745b-414c-9f26-56e8499667b0'  - idPost
 //59b9ebba-877e-4997-959c-6292fa3538e4

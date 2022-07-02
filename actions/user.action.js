@@ -26,3 +26,12 @@ export const addFoundUsers = (data) => {
         payload: data,
     }
 }
+
+
+export const isSpinner = (data) => {
+    return {
+        type: 'IS_SPINNER',
+        payload: data,
+    }
+}
+

@@ -9,7 +9,6 @@ class UserService {
     DB_ROLE = DB.Role;
 
     getAll = async (req) => {
-
         if (req.query.id) {
             const requestInFriend = await this.DB_USER.findAll({
                 attributes: [],
@@ -53,10 +52,8 @@ class UserService {
                     attributes: ['name'],
 
                 }
-            }).then(data => data);
+            }).then(data => data).catch(err => { throw err });
         }
-
-
 
     };
 
@@ -69,9 +66,8 @@ class UserService {
                     attributes: ['name'],
 
                 }
-
             })
-            .then((data) => data);
+            .then((data) => data).catch(err => { throw err });
     };
 
 
@@ -82,7 +78,7 @@ class UserService {
                 model: this.DB_ROLE,
                 attributes: ['name'],
             }
-        }).then(data => data);
+        }).then(data => data).catch(err => { throw err })
     };
 
     edit = async (req, res) => {
@@ -90,7 +86,7 @@ class UserService {
             const hash = await bcrypt.hash(req.body.password, 10);
             req.body.password = hash
         }
-        return this.DB_USER.update({ ...req.body }, { where: { id: req.params.id } }).then(() => 'done')
+        return this.DB_USER.update({ ...req.body }, { where: { id: req.params.id } }).then(() => 'done').catch(err => { throw err })
     };
 
     add = async (req, res) => {
@@ -103,14 +99,12 @@ class UserService {
                 attributes: ['name'],
 
             }
-        }).then(data => data)
-            .catch(err => console.log(err))
-
+        }).then(data => data).catch(err => { throw err })
     }
 
     delete = (req) => {
         return this.DB_USER.destroy({ where: { id: req.params.id } }
-        ).then(() => req.params.id).catch(err => err);
+        ).then(() => req.params.id).catch(err => { throw err });
     }
 
 

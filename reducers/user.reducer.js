@@ -1,5 +1,5 @@
 
-const reducer = (state = { allUsers: [], foundUsers: [] }, action) => {
+const reducer = (state = { allUsers: [], foundUsers: [], spinner: false }, action) => {
     switch (action.type) {
         case 'ADD_USERS':
             return {
@@ -34,6 +34,11 @@ const reducer = (state = { allUsers: [], foundUsers: [] }, action) => {
                 ...state,
                 foundUsers: state.foundUsers.filter(item => item.id !== action.payload.id),
                 allUsers: state.allUsers.filter(item => item.id !== action.payload.id)
+            }
+        case 'IS_SPINNER':
+            return {
+                ...state,
+                spinner: action.payload
             }
         default: return state
     }

@@ -40,24 +40,26 @@ const StartForm = () => {
         }
         const body = { email, password }
         user_name ? body['user_name'] = user_name : null
-
-        const result = signIn ? await services.signIn(body) : await services.signUp(body)
-
-        switch (await result) {
-            case 'There is user':
-                setAnswer('Пользователь уже существует');
-                break
-            case 'There is not user':
-                setAnswer('Пользователь не существет');
-                break;
-            case 'Invalid password':
-                setAnswer('Не верный пароль');
-                break;
-            default:
-                clearFildOfForm();
-                changeVerify(result)
-
+        try {
+            const result = signIn ? await services.signIn(body) : await services.signUp(body);
+            clearFildOfForm();
+            changeVerify(result);
+        } catch (error) {
+            switch (await error) {
+                case 'There is user':
+                    setAnswer('Пользователь уже существует');
+                    break
+                case 'There is not user':
+                    setAnswer('Пользователь не существет');
+                    break;
+                case 'Invalid password':
+                    setAnswer('Не верный пароль');
+                    break;
+                default:
+                    setAnswer('Что-то пошло не так. Попробуйте еще раз или позже');
+            }
         }
+
     }
 
     return (

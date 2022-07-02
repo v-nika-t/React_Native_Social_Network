@@ -1,7 +1,5 @@
 
-import { Text, Image, ScrollView, View, TouchableWithoutFeedback } from "react-native";
-import { useState } from 'react';
-
+import { Text, ScrollView, View, TouchableWithoutFeedback } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { AntDesign, Feather } from '@expo/vector-icons';
 
@@ -12,7 +10,7 @@ import styles from './styleStartPageAllUsers';
 
 const StartPageAllUsers = ({ navigation }) => {
 
-    const { foundUsers } = useSelector(state => state.user);
+    const { foundUsers, spinner } = useSelector(state => state.user);
     const service = User;
     const dispatch = useDispatch();
 
@@ -23,7 +21,7 @@ const StartPageAllUsers = ({ navigation }) => {
 
     const content = foundUsers ? foundUsers.map(item => (
         <>
-            <View key={item.id} style={styles.container}>
+            <View key={item.id} style={[styles.container]}>
                 <Text style={{ fontSize: 20 }}>
                     <AntDesign name="user" size={30} color="black" />
                     <Text style={{ fontWeight: 'bold' }}> {item.user_name} </Text>
@@ -39,11 +37,14 @@ const StartPageAllUsers = ({ navigation }) => {
             </View>
         </>
     )) : null
+
+
     return (
         <>
-            <SearchPanelofUsers >
-                {content}
-            </SearchPanelofUsers>
+            <SearchPanelofUsers />
+            <ScrollView >
+                {spinner ? null : content}
+            </ScrollView>
         </>
     )
 }

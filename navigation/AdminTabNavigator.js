@@ -19,51 +19,60 @@ function TabNavigator() {
             initialRouteName="allUsers"
             tabBarShowLabel='false'
         >
-            <Tab.Screen
-                name="allUsers"
-                showLabel="false"
-                component={StartPageAllUsers}
-                options={{
-                    title: 'Все пользователи',
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color }) => (
-                        <FontAwesome5 name="user-friends" size={24} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="addUser"
-                showLabel="false"
-                component={FormActionWithUser}
-                options={{
-                    title: 'Добавить',
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color }) => (
-                        <Ionicons name="person-add-sharp" size={24} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="profile"
-                component={Account}
-                options={{
-                    title: 'Личный кабинет',
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color }) => (
-                        <MaterialIcons name="account-circle" size={30} color={color} />
-                    ),
-                    headerRight: () => (
-                        <TouchableWithoutFeedback onPress={() => {
-                            dispatch(auth(false));
-                            SecureStore.setItemAsync('authorization', '');
-                            SecureStore.setItemAsync('userId', '');
-                        }} >
-                            <Entypo style={{ marginRight: 20 }} name="log-out" size={25} color="black" />
-                        </TouchableWithoutFeedback>
-                    )
-                }}
-
-            />
+            <Tab.Group screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#3CB371',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+            }}>
+                <Tab.Screen
+                    name="allUsers"
+                    showLabel="false"
+                    component={StartPageAllUsers}
+                    options={{
+                        title: 'Все пользователи',
+                        tabBarShowLabel: false,
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome5 name="user-friends" size={24} color={color} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="addUser"
+                    showLabel="false"
+                    component={FormActionWithUser}
+                    options={{
+                        title: 'Добавить',
+                        tabBarShowLabel: false,
+                        tabBarIcon: ({ color }) => (
+                            <Ionicons name="person-add-sharp" size={24} color={color} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
+                    name="profile"
+                    component={Account}
+                    options={{
+                        title: 'Личный кабинет',
+                        tabBarShowLabel: false,
+                        tabBarIcon: ({ color }) => (
+                            <MaterialIcons name="account-circle" size={30} color={color} />
+                        ),
+                        headerRight: () => (
+                            <TouchableWithoutFeedback onPress={() => {
+                                dispatch(auth(false));
+                                SecureStore.setItemAsync('authorization', '');
+                                SecureStore.setItemAsync('userId', '');
+                            }} >
+                                <Entypo style={{ marginRight: 20 }} name="log-out" size={25} color="#fff" />
+                            </TouchableWithoutFeedback>
+                        )
+                    }}
+                />
+            </Tab.Group>
         </Tab.Navigator>
     );
 }
