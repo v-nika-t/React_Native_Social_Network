@@ -37,7 +37,6 @@ function TabNavigator() {
                         headerShown: false,
                         tabBarShowLabel: false,
                         tabBarIcon: ({ color }) => (
-
                             <Entypo name="news" size={24} color={color} />
                         ),
                     }}

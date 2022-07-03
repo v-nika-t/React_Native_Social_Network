@@ -1,5 +1,5 @@
 
-const reducer = (state = { allUsers: [], foundUsers: [], spinner: false }, action) => {
+const reducer = (state = { allUsers: [], foundUsers: [], spinner: true }, action) => {
     switch (action.type) {
         case 'ADD_USERS':
             return {

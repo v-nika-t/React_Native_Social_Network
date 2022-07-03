@@ -20,22 +20,21 @@ const StartPageAllUsers = ({ navigation }) => {
     }
 
     const content = foundUsers ? foundUsers.map(item => (
-        <>
-            <View key={item.id} style={[styles.container]}>
-                <Text style={{ fontSize: 20 }}>
-                    <AntDesign name="user" size={30} color="black" />
-                    <Text style={{ fontWeight: 'bold' }}> {item.user_name} </Text>
-                    <TouchableWithoutFeedback onPress={() => navigation.getParent('StackNavigator').navigate('editUser', item)}>
-                        <Feather name="edit" size={30} color="black" />
-                    </TouchableWithoutFeedback>
-                </Text>
-                <View >
-                    <TouchableWithoutFeedback onPress={() => deleteUser(item.id)}>
-                        <AntDesign name="delete" size={30} color="black" />
-                    </TouchableWithoutFeedback>
-                </View>
+        <View key={item.id} style={[styles.container]}>
+            <Text style={{ fontSize: 20 }}>
+                <AntDesign name="user" size={30} color="black" />
+                <Text style={{ fontWeight: 'bold' }}> {item.user_name} </Text>
+                <TouchableWithoutFeedback onPress={() => navigation.getParent('StackNavigator').navigate('editUser', item)}>
+                    <Feather name="edit" size={30} color="black" />
+                </TouchableWithoutFeedback>
+            </Text>
+            <View >
+                <TouchableWithoutFeedback onPress={() => deleteUser(item.id)}>
+                    <AntDesign name="delete" size={30} color="black" />
+                </TouchableWithoutFeedback>
             </View>
-        </>
+        </View>
+
     )) : null
 
 
