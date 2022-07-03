@@ -9,7 +9,7 @@ import StackNavigator from '../navigation/StackNavigator';
 import { addDataAccount, auth, changeRole } from '../actions/auth.action';
 import { User } from '../services/SocialNetworkServices';
 
-function Auth() {
+const Auth: React.FC = () => {
     const dispatch = useDispatch();
     const services = User;
     const [appIsReady, setAppIsReady] = useState(false);

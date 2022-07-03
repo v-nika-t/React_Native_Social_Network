@@ -1,18 +1,14 @@
 import 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
-import * as SplashScreen from 'expo-splash-screen';
 
 import Auth from './components/Auth';
-import store from './store/store';
+import store from './store/store'; 
 
-function App() {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <Auth />
-    </Provider>
-
+    <Auth />
+    </Provider> 
   );
 }
-
 export default App;
-
