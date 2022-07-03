@@ -57,7 +57,7 @@ class CommentService {
 
     edit = (req, res) => {
         const comment = { ...req.body };
-        return this.DB_СOMMENTt.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
+        return this.DB_СOMMENT.update({ ...comment }, { where: { id: req.params.id } }).then(() => comment)
 
     }
 }
