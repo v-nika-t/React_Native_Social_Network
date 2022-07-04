@@ -57,11 +57,11 @@ const FormPostAction = ({ navigation, route }) => {
 
         server.add(values)
             .then((data) => {
-                dispatch(add({
+                dispatch(add([{
                     ...data,
                     Owner_posts: { "user_name": user.user_name },
                     Users_added_like_to_post: []
-                }, true))
+                }], true))
                 actions.resetForm();
                 setImage(null);
                 setResult('Запись добавлена')

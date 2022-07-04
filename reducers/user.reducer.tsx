@@ -1,5 +1,6 @@
+import { IStateUser, UserActionTypes, OneUser} from '../types/action.types/action.user.types';
 
-const reducer = (state = { allUsers: [], foundUsers: [], spinner: true }, action) => {
+const reducer = (state: IStateUser = { allUsers: [], foundUsers: [], spinner: true }, action: UserActionTypes) => {
     switch (action.type) {
         case 'ADD_USERS':
             return {
@@ -26,14 +27,14 @@ const reducer = (state = { allUsers: [], foundUsers: [], spinner: true }, action
         case 'EDIT_USER':
             return {
                 ...state,
-                foundUsers: state.foundUsers.map(item => item.id == action.payload.id ? action.payload : item),
-                allUsers: state.allUsers.map(item => item.id == action.payload.id ? action.payload : item)
+                foundUsers: state.foundUsers.map((item: OneUser) => item.id == action.payload.id ? action.payload : item),
+                allUsers: state.allUsers.map((item: OneUser) => item.id == action.payload.id ? action.payload : item)
             }
         case 'DELETE_USER':
             return {
                 ...state,
-                foundUsers: state.foundUsers.filter(item => item.id !== action.payload.id),
-                allUsers: state.allUsers.filter(item => item.id !== action.payload.id)
+                foundUsers: state.foundUsers.filter((item: OneUser) => item.id !== action.payload.id),
+                allUsers: state.allUsers.filter((item: OneUser) => item.id !== action.payload.id)
             }
         case 'IS_SPINNER':
             return {

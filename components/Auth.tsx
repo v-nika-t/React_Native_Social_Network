@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import StackNavigator from '../navigation/StackNavigator';
 import { addDataAccount, auth, changeRole } from '../actions/auth.action';
 import { User } from '../services/SocialNetworkServices';
+import { DataAccountOfUser } from '../types/action.types/action.auth.types'
 
 const Auth: React.FC = () => {
     const dispatch = useDispatch();
@@ -18,11 +19,15 @@ const Auth: React.FC = () => {
         (async function () {
             try {
                 await SplashScreen.preventAutoHideAsync();
-                const userId = await SecureStore.getItemAsync('userId');
-                const data = await services.getOne(userId);
+                const userId: string | null = await SecureStore.getItemAsync('userId');
+                const data: Array < DataAccountOfUser >  = await services.getOne(userId);
                 dispatch(addDataAccount(data[0]));
-                dispatch(changeRole(data[0].role.name));
-                dispatch(auth(true));
+                if( data[0].role ) {
+                    dispatch(changeRole(data[0].role.name));
+                    dispatch(auth(true)); 
+                } else {
+                    throw "Нет данных";
+                }
             } catch (error) {
                 SecureStore.setItemAsync('userId', '');
                 SecureStore.setItemAsync('authorization', '');
