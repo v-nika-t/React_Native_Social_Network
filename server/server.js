@@ -32,8 +32,6 @@ app.use(express.static(`${__dirname}/assets/imgOfPosts`));
 app.use('/user/auth', authRoutes);
 app.use(auth);
 
-app.use(express.static(`${__dirname}/assets/imgOfPosts`));
-
 app.use('/user', userRoutes);
 app.use('/comment', commentRoutes);
 app.use('/post', postRoutes);
@@ -41,8 +39,8 @@ app.use('/chat', chatRoutes);
 chat(io);
 
 server.listen(PORT, '192.168.1.225', (err) => {
-    if (err) { console.log(err) }
-    else { console.log('Порт прослушиваеться: ' + PORT) }
+    if (err) { throw err }
+    else { }
 })
 
 

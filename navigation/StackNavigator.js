@@ -9,14 +9,14 @@ import CommentsList from '../components/comments/commentsList/CommentsList';
 import FormPostAction from '../components/posts/formPostAction/FormPostAction';
 import FormActionWithUser from '../components/adminPanel/formActionWithUser/FormActionWithUser';
 import ChatWithUser from '../components/chatWithUser/ChatWithUser';
-import { ICommonState } from '../types/action.types/state.types';
-//import { IStackNavigation } from '../types/navigation/stack.navigation.types'
+//import { ICommonState } from '../types/action.types/state.types';
+import { IStackNavigation } from '../types/navigation/stack.navigation.types'
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
-    const isSignIn = useSelector((state: ICommonState): boolean => state.auth.signIn);
-    const isAdmin = useSelector((state : ICommonState): boolean => state.auth.isAdmin);
+    const isSignIn = useSelector((state) => state.auth.signIn);
+    const isAdmin = useSelector((state) => state.auth.isAdmin);
 
     const MyTheme = {
         ...DefaultTheme,

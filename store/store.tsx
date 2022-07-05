@@ -5,6 +5,7 @@ import post from '../reducers/post.reducer';
 
 const store = createStore( combineReducers({ user, auth, post }));
 
+
 export default store;
 
 

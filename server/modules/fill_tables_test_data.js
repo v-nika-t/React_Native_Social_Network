@@ -52,10 +52,8 @@ async function createPostForSomeUsers(id_users = []) { //1 user 1 картинк
 
 
 /* createPostForSomeUsers(
-    ['59b9ebba-877e-4997-959c-6292fa3538e4',
-     '89f7b0e6-0e14-4940-87b0-296c69cba11d', 
-     '91c6bf66-e810-4c5e-82c4-aa775731073f', 'a5285baa-c952-455a-bd8f-794e9094cf1f', 'b1268909-640f-4eb5-9558-bf2a7d7d590a' ])   */
-
+    ['dffc2ba8-e454-4cb7-83cf-26d80ed3e369', 'a8ac0511-898f-4d07-b46a-dbd0a0e1d393', '622a451c-38d4-4f13-abf0-c2e84d561dae', '25666903-0256-4b56-b6da-e32e9f6fa47e', '08fdf011-0d26-43c4-98aa-21771480fffd' ])   
+ */
 
 function createPostsForOneUser(id_users, count) {
     while (count !== 0) {
@@ -71,7 +69,7 @@ function createPostsForOneUser(id_users, count) {
 
 }
 
-//createPostsForOneUser('083c447e-8856-4221-b81b-c67386a584a0',4)
+createPostsForOneUser('dffc2ba8-e454-4cb7-83cf-26d80ed3e369', 4)
 
 function createComment(postId, userId) {
     DB.Comment.create({
@@ -83,8 +81,13 @@ function createComment(postId, userId) {
     });
 }
 
-/*  createComment('01fab976-b94b-4393-a615-e8597517b94b', '59b9ebba-877e-4997-959c-6292fa3538e4');
-createComment('01fab976-b94b-4393-a615-e8597517b94b', '59b9ebba-877e-4997-959c-6292fa3538e4');  */
+/* createComment('3b7124e1-98bc-4242-9c8d-ae69b5e38dee', '08fdf011-0d26-43c4-98aa-21771480fffd');
+createComment('3b7124e1-98bc-4242-9c8d-ae69b5e38dee', '25666903-0256-4b56-b6da-e32e9f6fa47e');
+createComment('3b7124e1-98bc-4242-9c8d-ae69b5e38dee', '622a451c-38d4-4f13-abf0-c2e84d561dae');
+createComment('3b7124e1-98bc-4242-9c8d-ae69b5e38dee', 'a8ac0511-898f-4d07-b46a-dbd0a0e1d393');
+createComment('3b7124e1-98bc-4242-9c8d-ae69b5e38dee', 'dffc2ba8-e454-4cb7-83cf-26d80ed3e369'); */
+/* createComment('08fdf011-0d26-43c4-98aa-21771480fffd', '10dce956-8867-401f-8e32-14a3bfa1f823'); 
+createComment('08fdf011-0d26-43c4-98aa-21771480fffd', '08fdf011-0d26-43c4-98aa-21771480fffd');  */
 /* createComment('5538eac8-f9ca-43af-b9fb-1657cdd9d705', '59d8669a-8ec1-40d6-b383-46233b2c584f');
  */
 
@@ -195,8 +198,8 @@ DB.Message.create({
   friendId: '4ce9f17f-497c-4784-be18-31e474ae8f14',
 });   */
 
-//DB.User.findAll({ raw: true }).then(data => console.log(data))
-//DB.User.update({ roleId: 2 }, { where: { id: '45ec13d5-d15f-404e-a4ef-89e7e5fcc3de' } })
+//DB.Post.findAll({ raw: true }).then(data => console.log(data))
+//DB.User.update({ roleId: 2 }, { where: { id: '3090704a-201a-4f98-b0fb-e1fdcc6e2ba0' } })
 
 
 
@@ -217,7 +220,7 @@ DB.Message.create({
 }
 
 createUsers(2); */
-DB.User.findAll({ raw: true }).then(data => console.log(data))
+//DB.User.findAll({ raw: true }).then(data => console.log(data))
 //DB.Post.findAll({ raw: true }).then(data => console.log(data))
 //DB.Comment.findAll({ raw: true }).then(data => console.log(data))
 
@@ -242,3 +245,5 @@ DB.User.findAll({ raw: true }).then(data => console.log(data))
 
     })
 }());  */
+
+

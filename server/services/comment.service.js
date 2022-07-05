@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const DB = require('../modules/index');
-1
+
 class CommentService {
     DB_СOMMENT = DB.Comment;
     DB_USER = DB.User;

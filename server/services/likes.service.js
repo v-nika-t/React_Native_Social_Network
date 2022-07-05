@@ -8,7 +8,7 @@ class LikeService {
     }
 
     add = (req, res) => {
-        return this._db.create(req.body).then(data => data).catch(err => console.log(err))
+        return this._db.create(req.body).then(data => data).catch(err => err)
     };
 
     delete = (req, res) => {

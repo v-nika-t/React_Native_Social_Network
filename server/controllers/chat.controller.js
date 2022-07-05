@@ -7,7 +7,6 @@ class ChatController {
     Service_Message = Message;
 
     creatChat = async (req, res) => {
-        console.log('ChatController')
         const resultOfFind = await this.Service_Chat.getAllWhere(req, res)
 
         if (resultOfFind.length == 0) {

@@ -63,9 +63,7 @@ Message.belongsTo(User, { as: 'Owner_Messages', foreignKey: 'userId', onDelete: 
 Chat.hasMany(Message, { as: 'Message' });
 Message.belongsTo(Chat, { as: 'Chat', foreignKey: 'chatId' });
 
-sequelize.sync({ force: false  /* force: false    */ }).then(() => {
-    console.log('Tables have been created')
-}).catch(err => console.log(err));
+sequelize.sync({ force: false }).then(() => { }).catch(err => { throw err });
 
 
 module.exports = { User, Post, Comment, Friend, Role, LikeofComment, LikeofPost, Chat, Message }

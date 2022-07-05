@@ -1,12 +1,12 @@
-/* import { NavigatorScreenParams,  } from '@react-navigation/native';
+ import { NavigatorScreenParams } from '@react-navigation/native';
 
 
 export interface IStackNavigation {
     "startPage": undefined,
-    "account": NavigatorScreenParams<TabParamList>,
+    "account": undefined,
     "comments": undefined,
     "editPost": undefined,
     "chatWithUser": undefined,
-    "users": NavigatorScreenParams<TabParamList>,
+    "users": undefined,
     "editUser": undefined,
-}  */
+}  

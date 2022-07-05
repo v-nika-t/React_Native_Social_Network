@@ -55,7 +55,7 @@ class PostService {
                     data: (new Date(data.date).toLocaleString('ru', { day: 'numeric', month: 'long', year: "2-digit" }))
                 })
 
-            }).catch(err => console.log(err)))
+            }).catch(err => err))
     }
 
     delete = (req) => {

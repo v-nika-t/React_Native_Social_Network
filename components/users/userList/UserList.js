@@ -87,9 +87,8 @@ const UsertList = () => {
 
         isSubscriber ? nameIcon = 'checkcircle' : null;
         isSubscriber ? color = 'green' : null;
-
         return (
-            <View key={item.id} style={[styles.container]}>
+            <View key={id_other_user} style={[styles.container]}>
                 <Text style={[styles.text]}>{user_name}</Text>
                 {isRequest ? (
                     <TouchableWithoutFeedback onPress={() => changeStatus(id_other_user, user_name, isFriend, isSubscriber, isRequest)}>

@@ -1,6 +1,7 @@
  import { DataAccountOfUser } from './action.auth.types';
  import { IOnePost } from './action.post.types';
  import { OneUser } from './action.user.types';
+ import store from '../../store/store';
 
 export interface IStateAuth {
     signIn: boolean,
@@ -21,3 +22,6 @@ export interface ICommonState {
     post: TStatePost | [],
     user:  IStateUser
 } 
+
+export type RootState = ReturnType<typeof store.getState>;
+

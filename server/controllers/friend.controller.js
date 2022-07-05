@@ -2,7 +2,6 @@ const Friend = require('../services/friend.service');
 
 class FriendController {
     Service_Friend = Friend;
-
     addFriend = (req, res) => {
         this.Service_Friend.add({ userId: req.body.friendId, friendId: req.body.userId, status: true })
             .then((data) => {

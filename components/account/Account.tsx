@@ -7,25 +7,27 @@ import { Text, TextInput, Button, View, TouchableWithoutFeedback } from 'react-n
 import { Feather, AntDesign, Ionicons } from '@expo/vector-icons';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import styles from './styleAccountList';
+import { IStateAuth, RootState} from '../../types/action.types/state.types';
 
-import SocialNetworkServices from '../../services/SocialNetworkServices';
+
+import { User } from '../../services/SocialNetworkServices';
 import { editDataAccount } from '../../actions/auth.action';
 
-const Account = () => {
-
-    const server = new SocialNetworkServices('user');
+const Account: React.FC = () => {
+    const server = User;
     const dispatch = useDispatch();
-    const state = useSelector(state => state.auth.dataAccount);
+    const state = useSelector<RootState, IStateAuth>((state) => state.auth);
+    const {  user_name, email, canAllSeeAccount, id }  = {...state.dataAccount}; 
 
-    const { user_name, email, canAllSeeAccount } = state;
-    const userId = state.id;
+    const userId: any= id;
     const [edit, setEdit] = useState(false);
     const [error, setError] = useState(true);
     const [result, setResult] = useState('');
     const [isChecked, setIsChecked] = useState(canAllSeeAccount);
-    const initialValues = { user_name, email, canAllSeeAccount }
+    const initialValues = { user_name, email, canAllSeeAccount, password: '' }
 
     useFocusEffect(
+        
         useCallback(() => back, [])
     )
 
@@ -45,9 +47,9 @@ const Account = () => {
         setEdit(false)
     }
 
-    const changeDataAccount = async (values) => {
+    const changeDataAccount = async (values:object) => {
         const result = await server.edit(userId, { ...values, canAllSeeAccount: isChecked });
-        result == 'done' ? dispatch(editDataAccount(values)) : null;  // Записать результат в State
+        result == 'done' ? dispatch(editDataAccount(values)) : null; 
         setEdit(false);
     }
 
