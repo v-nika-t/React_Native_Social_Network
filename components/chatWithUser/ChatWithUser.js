@@ -31,11 +31,10 @@ const ChatWithUser = ({ route }) => {
                 ...message,
             ]))
         })
-        socket.on('ONLINE', (firstUserId) => {
-            console.log("firstUserId: ", firstUserId)
-        })
-
-        /* return (socket.on()) */
+        socket.on('ONLINE', (firstUserId) => { })
+        return () => {
+            socket.disconnect();
+        }
     }, []);
     const sentMessage = () => {
         socket.emit('SENT_MESSAGE', {

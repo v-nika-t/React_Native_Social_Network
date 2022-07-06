@@ -30,7 +30,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(`${__dirname}/assets/imgOfPosts`));
 
 app.use('/user/auth', authRoutes);
-app.use(auth);
+//app.use(auth);
 
 app.use('/user', userRoutes);
 app.use('/comment', commentRoutes);

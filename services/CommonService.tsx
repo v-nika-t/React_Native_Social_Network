@@ -36,6 +36,8 @@ class CommonService{
         body ? requestObject.data = body : null;
         id ? requestObject.url += `/${id}` : null;
         queryParams ? requestObject['params'] = queryParams : null
+
+
         const data= await axios(requestObject)
             .then(function (response:any): object | []{
                 return response.data;
