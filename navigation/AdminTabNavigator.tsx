@@ -9,15 +9,17 @@ import Account from '../components/account/Account';
 import StartPageAllUsers from '../components/adminPanel/startPageAllUsers/StartPageAllUsers';
 import FormActionWithUser from '../components/adminPanel/formActionWithUser/FormActionWithUser';
 
-const Tab = createBottomTabNavigator();
+import { TTabAdminNavigation } from '../types/navigation/stack.navigation.types'
+
+const Tab = createBottomTabNavigator<TTabAdminNavigation>();
 
 function TabNavigator() {
     const dispatch = useDispatch();
 
     return (
         <Tab.Navigator
-            initialRouteName="allUsers"
-            tabBarShowLabel='false'
+        screenOptions={{ tabBarShowLabel:false}}
+            initialRouteName="allUsers" 
         >
             <Tab.Group screenOptions={{
                 headerStyle: {
@@ -30,7 +32,6 @@ function TabNavigator() {
             }}>
                 <Tab.Screen
                     name="allUsers"
-                    showLabel="false"
                     component={StartPageAllUsers}
                     options={{
                         title: 'Все пользователи',
@@ -42,7 +43,6 @@ function TabNavigator() {
                 />
                 <Tab.Screen
                     name="addUser"
-                    showLabel="false"
                     component={FormActionWithUser}
                     options={{
                         title: 'Добавить',

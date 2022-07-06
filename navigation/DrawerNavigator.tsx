@@ -2,12 +2,14 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import PostList from '../components/posts/postsList/PostList';
 import FormPostAction from '../components/posts/formPostAction/FormPostAction';
+import { TDrawerNavigator } from '../types/navigation/stack.navigation.types'
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<TDrawerNavigator>();
+
 
 const DrawerNavigator = () => {
     return (
-        <Drawer.Navigator initialRouteName="Home"  >
+        <Drawer.Navigator  >
             <Drawer.Group screenOptions={{
                 headerStyle: {
                     backgroundColor: '#3CB371',

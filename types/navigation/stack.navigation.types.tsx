@@ -1,12 +1,31 @@
  import { NavigatorScreenParams } from '@react-navigation/native';
 
+ export type TStackNavigation  = {
+    startPage: undefined,
+    comments: undefined,
+    editPost: undefined,
+    chatWithUser: undefined, 
+    editUser: undefined,
+    account: NavigatorScreenParams<TTabNavigation>,
+    users: NavigatorScreenParams<TTabAdminNavigation>
+  };
 
-export interface IStackNavigation {
-    "startPage": undefined,
-    "account": undefined,
-    "comments": undefined,
-    "editPost": undefined,
-    "chatWithUser": undefined,
-    "users": undefined,
-    "editUser": undefined,
+
+export type TTabNavigation = {
+    news: NavigatorScreenParams<TDrawerNavigator>,
+    friends: undefined,
+    chatList: undefined,
+    profile: undefined,
 }  
+
+export type TTabAdminNavigation ={
+    allUsers: undefined,
+    addUser: undefined,
+    profile: undefined,
+}  
+
+export type TDrawerNavigator ={
+    allPost: undefined,
+    ownPost: undefined,
+    addPost: undefined,
+}

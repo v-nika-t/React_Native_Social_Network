@@ -3,20 +3,21 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 import TabNavigator from './TabNavigator';
-import AdminTabNavigator from './AdminTabNavigator.js';
+import AdminTabNavigator from './AdminTabNavigator';
 import StartForm from '../components/form/startForm/StartForm';
 import CommentsList from '../components/comments/commentsList/CommentsList';
 import FormPostAction from '../components/posts/formPostAction/FormPostAction';
 import FormActionWithUser from '../components/adminPanel/formActionWithUser/FormActionWithUser';
 import ChatWithUser from '../components/chatWithUser/ChatWithUser';
-//import { ICommonState } from '../types/action.types/state.types';
-import { IStackNavigation } from '../types/navigation/stack.navigation.types'
+import { ICommonState } from '../types/action.types/state.types';
+import { TStackNavigation } from '../types/navigation/stack.navigation.types'
 
-const Stack = createNativeStackNavigator();
+
+const Stack = createNativeStackNavigator<TStackNavigation>();
 
 const StackNavigator = () => {
-    const isSignIn = useSelector((state) => state.auth.signIn);
-    const isAdmin = useSelector((state) => state.auth.isAdmin);
+    const isSignIn = useSelector<ICommonState, boolean>((state) => state.auth.signIn);
+    const isAdmin = useSelector<ICommonState, boolean>((state) => state.auth.isAdmin);
 
     const MyTheme = {
         ...DefaultTheme,
@@ -38,7 +39,7 @@ const StackNavigator = () => {
                         fontWeight: 'bold',
                     },
                 }}>
-                    {!isSignIn ? (<Stack.Screen
+                  {!isSignIn ? (<Stack.Screen
                         name="startPage"
                         component={StartForm}
                         options={{
@@ -51,20 +52,20 @@ const StackNavigator = () => {
                                 name="account"
                                 component={TabNavigator}
                                 options={{ headerShown: false }}
-                            />
+                    /> 
                             <Stack.Screen
                                 name="comments"
                                 component={CommentsList}
                                 options={{ title: "Комментарии" }}
                             />
-                            <Stack.Screen
+                          <Stack.Screen
                                 name="editPost"
                                 component={FormPostAction}
                                 options={{
                                     title: 'Изменить'
                                 }}
-                            />
-                            <Stack.Screen
+                            /> 
+                           <Stack.Screen
                                 name="chatWithUser"
                                 component={ChatWithUser}
                                 options={{
@@ -77,15 +78,15 @@ const StackNavigator = () => {
                             name="users"
                             component={AdminTabNavigator}
                             options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
+                        /> 
+                         <Stack.Screen
                             name="editUser"
                             component={FormActionWithUser}
                             options={{
                                 title: 'Изменить',
                             }}
-                        />
-                    </>))}
+                        /> 
+                    </>))} 
                 </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer >

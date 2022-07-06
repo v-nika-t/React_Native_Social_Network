@@ -9,8 +9,9 @@ import DrawerNavigator from './DrawerNavigator';
 import Account from '../components/account/Account';
 import UsertList from '../components/users/userList/UserList';
 import ChatList from '../components/chatList/ChatList';
+import { TTabNavigation } from '../types/navigation/stack.navigation.types'
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<TTabNavigation>();
 
 function TabNavigator() {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function TabNavigator() {
     return (
         <Tab.Navigator
             initialRouteName="news"
-            tabBarShowLabel='false'
+            screenOptions={{ tabBarShowLabel:false}}
         >
             <Tab.Group screenOptions={{
                 headerStyle: {
@@ -43,7 +44,6 @@ function TabNavigator() {
                 />
                 <Tab.Screen
                     name="friends"
-                    showLabel="false"
                     component={UsertList}
                     options={{
                         title: 'Друзья',
