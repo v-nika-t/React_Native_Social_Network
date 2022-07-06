@@ -152,18 +152,19 @@ const CommentsList = ({ route }) => {
 
     return (
         <>
+
+
+            <ScrollView style={{ marginTop: 10 }}>
+                {spinner}
+                {content}
+            </ScrollView>
             <TextInput
                 onChangeText={setText}
                 value={text}
                 placeholder='Коментарий'
                 style={styles.input}
             />
-            <Button onPress={addComment} title="Добавить" />
-            <ScrollView style={{ marginTop: 10 }}>
-                {spinner}
-                {content}
-            </ScrollView>
-
+            <Button color='#3CB371' onPress={addComment} title="Добавить" />
         </>
     )
 }

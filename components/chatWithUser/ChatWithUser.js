@@ -72,7 +72,7 @@ const ChatWithUser = ({ route }) => {
                 placeholder='Введите сообщение'
                 style={styles.input}
             />
-            <Button onPress={sentMessage} title="Отправить" />
+            <Button color='#3CB371' onPress={sentMessage} title="Отправить" />
         </>
     )
 }

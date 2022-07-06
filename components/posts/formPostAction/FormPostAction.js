@@ -124,6 +124,7 @@ const FormPostAction = ({ navigation, route }) => {
                                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                             </View>
                             <Button
+                                color='#3CB371'
                                 title={route.params ? "Изменить" : "Добавить"}
                                 onPress={props.handleSubmit} />
                         </>

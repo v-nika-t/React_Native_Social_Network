@@ -140,6 +140,7 @@ const FormActionWithUser = ({ navigation, route }) => {
                 </View>
             </ScrollView>
             <Button
+                color='#3CB371'
                 title={route.params ? "Изменить" : "Добавить"}
                 onPress={route.params ? editOneUser : addOneUser} />
         </>

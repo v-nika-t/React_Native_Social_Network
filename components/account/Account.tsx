@@ -120,6 +120,7 @@ const Account: React.FC = () => {
 
                         </View>
                         <Button
+                           color = '#3CB371'
                             title="Изменить"
                             onPress={props.handleSubmit} />
                     </>
